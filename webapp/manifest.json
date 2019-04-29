@@ -1,0 +1,171 @@
+{
+	"_version": "1.4.0",
+	"sap.app": {
+		"id": "dbedit",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"dataSources": {
+			"mainService": {
+				"uri": "/sap/opu/odata/sap/ZPRS_BILL_EDIT_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
+			},
+			"ZPRS_VALUE_HELP_SRV": {
+				"uri": "/sap/opu/odata/SAP/ZPRS_VALUE_HELP_SRV/",
+				"type": "OData"
+			},
+			"ZPRS_USER_DATA_SRV": {
+				"uri": "/sap/opu/odata/SAP/ZPRS_USER_DATA_SRV/",
+				"type": "OData"
+			},
+			"ZPRS_BILL_EDIT_SRV": {
+				"uri": "/sap/opu/odata/SAP/ZPRS_BILL_EDIT_SRV/",
+				"type": "OData"
+			},
+			"ZPRS_WIPCODES_SRV": {
+				"uri": "/sap/opu/odata/SAP/ZPRS_WIPCODES_SRV/",
+				"type": "OData"
+			}
+		},
+		"sourceTemplate": {
+			"id": "sap.ui.ui5-template-plugin.1worklist",
+			"version": "1.38.3"
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "sap-icon://task",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": ["sap_hcb", "sap_bluecrystal"]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "dbedit.view.App",
+			"type": "XML",
+			"id": "app"
+		},
+		"dependencies": {
+			"minUI5Version": "1.38.0",
+			"libs": {
+				"sap.ui.core": {
+					"minVersion": "1.38.0"
+				},
+				"sap.m": {
+					"minVersion": "1.38.0"
+				},
+				"sap.ushell": {
+					"minVersion": "1.38.0"
+				},
+				"sap.collaboration": {
+					"minVersion": "1.38",
+					"lazy": true
+				}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "dbedit.i18n.i18n"
+				}
+			},
+			"": {
+				"dataSource": "mainService",
+				"preload": true
+			},
+			"ZPRS_VALUE_HELP_SRV": {
+				"settings": {},
+				"dataSource": "ZPRS_VALUE_HELP_SRV",
+				"preload": false
+			},
+			"ZPRS_USER_DATA_SRV": {
+				"settings": {},
+				"dataSource": "ZPRS_USER_DATA_SRV",
+				"preload": false
+			},
+			"ZPRS_BILL_EDIT_SRV": {
+				"settings": {},
+				"dataSource": "ZPRS_BILL_EDIT_SRV",
+				"preload": false
+			},
+			"ZPRS_WIPCODES_SRV": {
+				"settings": {},
+				"dataSource": "ZPRS_WIPCODES_SRV",
+				"preload": false
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "dbedit.view",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"bypassed": {
+					"target": ["notFound"]
+				},
+				"async": true
+			},
+			"routes": [{
+				"name": "home",
+				"pattern": "",
+				"titleTarget": "",
+				"greedy": false,
+				"target": ["home"]
+			}],
+			"targets": {
+				"object": {
+					"viewName": "Object",
+					"viewId": "object",
+					"viewLevel": 1
+				},
+				"objectNotFound": {
+					"viewName": "ObjectNotFound",
+					"viewId": "objectNotFound"
+				},
+				"notFound": {
+					"viewName": "NotFound",
+					"viewId": "notFound"
+				},
+				"home": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearAggregation": true,
+					"viewName": "Home",
+					"viewLevel": 1
+				}
+			}
+		},
+		"config": {
+			"fullWidth": true
+		}
+	}
+}

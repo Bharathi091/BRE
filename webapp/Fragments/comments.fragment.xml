@@ -1,0 +1,17 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml">
+	<Dialog contentWidth="700px" contentHeight="300px" draggable="true" id="Alert" title="WorkFlowComments">
+		<content>
+			<List
+				items="{ path: 'InputsModel>/Inputs/WfComments'}"
+				headerText="Comments">
+				<StandardListItem title="{InputsModel>Username} : {InputsModel>Usercomment} " description= "{ path: 'InputsModel>Date', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'MMM dd,yyyy HH:mm:ss' } }" />
+			</List>
+		</content>
+		<beginButton>
+			<Button type="Default" text="{i18n>Ok}" press="DialogClosedWithOk"/>
+		</beginButton>
+			<endButton>
+			<Button type="Default" text="Cancel" press="DialogClosedWithCancel"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

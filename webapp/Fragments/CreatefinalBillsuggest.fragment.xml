@@ -1,0 +1,17 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+   xmlns:core="sap.ui.core" >
+   <Dialog>
+   		<l:Grid defaultSpan="L12 M12 S12" width="auto" id="idGrid">
+			<l:content>
+			 	<Text text="This is E-billing matter and there can be potential warning. Would like to go head and create final bill?"/>
+  			</l:content>
+		</l:Grid>
+   	<buttons>
+			<Button text="CANCEL" press="onCreateFinalcloseDialog" type="Reject"/>
+			<Button text="PROCEED" press="onCreateFinalProceed" type="Accept"/>
+			<Button text="CHECk WARNING" press="onCheckWarning" type="Accept"/>
+		</buttons>
+   </Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,935 @@
+<mvc:View controllerName="dbedit.controller.Home" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:sl="sap.ui.comp.navpopover"
+	xmlns:smartChart="sap.ui.comp.smartchart" xmlns:core="sap.ui.core" xmlns:smartTable="sap.ui.comp.smarttable" xmlns:m="sap.m"
+	xmlns:l="sap.ui.layout" xmlns:uitbl="sap.ui.table" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:tnt="sap.tnt"
+	xmlns:smartField="sap.ui.comp.smartfield" xmlns:smartFilter="sap.ui.core.Control" xmlns:f="sap.ui.layout.form"
+	xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" xmlns:semantic="sap.m.semantic"
+	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:smartList="sap.ui.comp.smartlist" xmlns:a="sap.m.IconTabFilterDesign">
+	<Page showHeader="false">
+		<content>
+			<smartFilterBar:SmartFilterBar id="SmartFilterBar" entitySet="BillSummarySet" visible="true" initialized="initiatedFilterbars"
+				search="gotoPress">
+				<smartFilterBar:controlConfiguration>
+					<smartFilterBar:ControlConfiguration key="Budat" label="{i18n>Date Selection}" index="1" controlType="date" filterType="interval"
+						visibleInAdvancedArea="true"/>
+					<smartFilterBar:ControlConfiguration key="Client" label="{i18n>ClientNumber}" index="2" id="client" visibleInAdvancedArea="true"
+						preventInitialDataFetchInValueHelpDialog="true" filterType="multi"/>
+					<smartFilterBar:ControlConfiguration key="MpatnerParvw" label="{i18n>MpatnerParvw}" index="3" id="MpatnerParvw" visibleInAdvancedArea="true"
+						preventInitialDataFetchInValueHelpDialog="true" filterType="multi"/>
+					<smartFilterBar:ControlConfiguration key="Mpatner" visibleInAdvancedArea="true" index="4" preventInitialDataFetchInValueHelpDialog="true"
+						filterType="multi"/>
+					<smartFilterBar:ControlConfiguration key="Pspid" visibleInAdvancedArea="true" index="5" preventInitialDataFetchInValueHelpDialog="true"
+						filterType="multi"/>
+					<smartFilterBar:ControlConfiguration key="Rptgroup" visibleInAdvancedArea="true" index="6" preventInitialDataFetchInValueHelpDialog="true"
+						filterType="multi"/>
+					<smartFilterBar:ControlConfiguration key="Mgbill" visibleInAdvancedArea="true" index="7" preventInitialDataFetchInValueHelpDialog="true"
+						filterType="multi"/>
+					<smartFilterBar:ControlConfiguration key="Werks" visibleInAdvancedArea="true" index="8" preventInitialDataFetchInValueHelpDialog="true"
+						filterType="multi"/>
+					<smartFilterBar:ControlConfiguration key="Vkorg" visibleInAdvancedArea="true" index="9" preventInitialDataFetchInValueHelpDialog="true"
+						filterType="multi"/>
+					<smartFilterBar:ControlConfiguration key="Vbeln" visibleInAdvancedArea="true" index="10" preventInitialDataFetchInValueHelpDialog="true"
+						filterType="multi"/>
+					<smartFilterBar:ControlConfiguration key="Belnr" label="{i18n>Belnr}" id="Belnr" visibleInAdvancedArea="true"
+						preventInitialDataFetchInValueHelpDialog="true" filterType="multi"/>
+					<smartFilterBar:ControlConfiguration key="Pernr" label="{i18n>Pernr}" id="Pernr" visibleInAdvancedArea="true"
+						preventInitialDataFetchInValueHelpDialog="true" filterType="multi" mandatory="mandatory"/>
+				</smartFilterBar:controlConfiguration>
+				<CheckBox text="{i18n>CreateDraftBill}"/>
+			</smartFilterBar:SmartFilterBar>
+			<tnt:ToolHeader>
+				<Button icon="sap-icon://flag" type="Transparent" press="onHomePress"></Button>
+				<Button icon="sap-icon://write-new-document" type="Transparent" press="onNarrativePress" text="Narrative Edits" id="Narrative"
+					visible="false"></Button>
+				<Button icon="sap-icon://write-new-document" type="Transparent" press="onHeaderEditsPress" text="Header Edits" id="HeaderEdits"
+					visible="false"></Button>
+				<Button icon="sap-icon://write-new-document" type="Transparent" press="onLineItemEditsPress" text="Line Item Edits" id="LineItemEdits"
+					visible="false"></Button>
+				<Button icon="sap-icon://write-new-document" type="Transparent" press="onLineItemTransfersPress" text="Line Item Transfers"
+					id="LineItemTransfers" visible="false"></Button>
+				<Button icon="sap-icon://write-new-document" type="Transparent" press="onWrittenDownPress" text="Written Down" id="WrittenDown"
+					visible="false"></Button>
+				<Button icon="sap-icon://write-new-document" type="Transparent" press="onBillSummaryPress" text="Bill Summary" id="BillSummary"
+					visible="false"></Button>
+				<ToolbarSpacer/>
+			</tnt:ToolHeader>
+			<VBox id="Home">
+				<smartTable:SmartTable enableCustomFilter="false" visible="true" id="smartTable_ResponsiveTable1" entitySet="BillSummarySet"
+					smartFilterId="SmartFilterBar" tableType="AnalyticalTable" showRowCount="false" useVariantManagement="true" useTablePersonalisation="true"
+					useExportToExcel="false" beforeRebindTable="onBeforeRebindTable" dataReceived="onDataReceived" fitContainer="true"
+					beforeExport="beforeExport"
+					ignoredFields="Zzawtypflag,Zzbeamount,Zzbeflag,BaName,BillingCoord,BillingCoordName,BillingPartner,BlockNarrative,Bstdk,Budat,Client,ClientPriconf,CreationSource,DbCreate,DbDate,DiscAmount,Discount,DiscPercent,Erdat,FAKSK,FKDAT,Has_Late_Wip,HeaderText,Isebill,Iseditable,Iserror,Koei1,Kunrg,Kursk,MatterLongName,MatterMattorney,MatterMattorneyName,MatterPriconf,Mgbill,Mpatner,MpatnerParvw,NetAmount,PayerName,PriceCntrl,Prsdt,PWHIE,Reviewer,ReviewerName,Rptgroup,SearchString,Taxk1,Tdname,ToStatus,TypeOfApproval,UserRole,VbelnVf,Vkorg,Werks,WfStatus,WhtTax,Zterm,ZtermText,Zzbalamount,Zzbillamount,ZzbillmthdDesc,Zzcapamount,Zzclientpricinggroup,Zzclientpricinggroupk,Zzcreditamt,ZzcreditamtDesc,Zzcreditcurr,ZzcreditTax,Zzfundcurr,Zzfundsamt,Zzgrpbill,Zzmatterpricinggroup,Zzmatterpricinggroupk,Zztrustamt,Zztrustcurr">
+					<smartTable:customToolbar>
+						<Toolbar>
+							<ToolbarSpacer/>
+							<Title id="title1" text="Draft Bill"/>
+							<Button icon="sap-icon://synchronize" tooltip="refresh" press="refreshTable"/>
+							<Button icon="sap-icon://excel-attachment" tooltip="downlosd" press="Export"/>
+							<!--<Button  icon="sap-icon://action-settings" tooltip="Table Personalisation settings" press="ontablesettings"/>-->
+							<Button icon="sap-icon://settings" press="onsettings"/>
+							<SearchField width="20%" liveChange="onGlobalSearch" class="searchPosition" id="searchText0"/>
+						</Toolbar>
+					</smartTable:customToolbar>
+					<uitbl:Table id="homeTable" rowSelectionChange="homeTableSelection" rows="{InputsModel>/HomeData}">
+						<uitbl:columns>
+							<uitbl:Column width="8rem" filterProperty="Action" sortProperty="Action" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Action" , "maxLength": "5","columnIndex":"2", "leadingProperty": "Action" }'/>
+								</uitbl:customData>
+								<uitbl:label>
+									<Text text="Info"/>
+								</uitbl:label>
+								<uitbl:template>
+									<core:Icon src="sap-icon://alert" class="size3" visible="false" id="alert" color="green"/>
+								</uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Message" showFilterMenuEntry="false" sortProperty="Message" showSortMenuEntry="true"
+								autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Message" , "maxLength": "5","columnIndex":"2", "leadingProperty": "Message" }'/>
+								</uitbl:customData>
+								<uitbl:label>
+									<Text text="Status Message"/>
+								</uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Message" value="{Message}"/>
+								</uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Status" sortProperty="Status" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Status" , "maxLength": "5","columnIndex":"3", "leadingProperty": "Status" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Draft Bill Status"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Status" value="{Status}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="WfStatusText" sortProperty="WfStatusText" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "WfStatusText" , "maxLength": "5","columnIndex":"4", "leadingProperty": "WfStatusText" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Work Flow Status"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="WfStatusText" value="{WfStatusText}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="WfComments" sortProperty="WfComments" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "WfComments" , "maxLength": "5","columnIndex":"5", "leadingProperty": "WfComments" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Comments"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="WfComments" value="{WfComments}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="isattachment" sortProperty="isattachment" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "isattachment" , "maxLength": "5","columnIndex":"6", "leadingProperty": "isattachment" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Attachments"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="isattachment" value="{isattachment}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="ClientName" sortProperty="ClientName" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "ClientName" , "maxLength": "5","columnIndex":"9", "leadingProperty": "ClientName" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Client Name"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="ClientName" value="{ClientName}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Pspid" sortProperty="Pspid" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Pspid" , "maxLength": "5","columnIndex":"10", "leadingProperty": "Pspid" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Matter Number"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Pspid" value="{Pspid}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Post1" sortProperty="Post1" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Post1" , "maxLength": "5","columnIndex":"11", "leadingProperty": "Post1" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Matter description"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Post1" value="{Post1}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Vbeln" sortProperty="Vbeln" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Vbeln" , "maxLength": "5","columnIndex":"12", "leadingProperty": "Vbeln" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Draft Bill"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Vbeln" value="{Vbeln}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Audat" sortProperty="Audat" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Audat" , "maxLength": "5","columnIndex":"13", "leadingProperty": "Audat" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Date"/></uitbl:label>
+								<uitbl:template>
+									<Text width="100%" text="{ path: 'Audat', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'MM/dd/yyyy' } }"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Waers" sortProperty="Waers" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Waers" , "maxLength": "5","columnIndex":"14", "leadingProperty": "Waers" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Currency"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Waers" value="{Waers}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="NetFees" sortProperty="NetFees" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "NetFees" , "maxLength": "5","columnIndex":"15", "leadingProperty": "NetFees" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="NetFees"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="NetFees" value="{NetFees}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="NetCost" sortProperty="NetCost" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "NetCost" , "maxLength": "5","columnIndex":"16", "leadingProperty": "NetCost" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Net Disbursments"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="NetCost" value="{NetCost}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Tax" sortProperty="Tax" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Tax" , "maxLength": "5","columnIndex":"17", "leadingProperty": "Tax" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Tax"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Tax" value="{Tax}"/></uitbl:template>
+							</uitbl:Column>
+							<!--<uitbl:Column width="8rem" filterProperty="Meinh" sortProperty="Meinh" showSortMenuEntry="true" autoResizable="true">-->
+							<!--	<uitbl:customData>-->
+							<!--		<core:CustomData key="p13nData" value='\{"columnKey": "Meinh" , "maxLength": "5","columnIndex":"18", "leadingProperty": "Meinh" }'/></uitbl:customData>-->
+							<!--	<uitbl:label>-->
+							<!--		<Text text="Total"/></uitbl:label>-->
+							<!--	<uitbl:template>-->
+							<!--		<smartField:SmartField editable="false" id="Meinh" value="{Meinh}"/></uitbl:template>-->
+							<!--</uitbl:Column>-->
+							<!--<uitbl:Column width="8rem" filterProperty="ReviewComplete" sortProperty="ReviewComplete" showSortMenuEntry="true" autoResizable="true">-->
+							<!--	<uitbl:customData>-->
+							<!--		<core:CustomData key="p13nData"-->
+							<!--			value='\{"columnKey": "ReviewComplete" , "maxLength": "5","columnIndex":"19", "leadingProperty": "ReviewComplete" }'/>-->
+							<!--	</uitbl:customData>-->
+							<!--	<uitbl:label>-->
+							<!--		<Text text="Review"/>-->
+							<!--	</uitbl:label>-->
+							<!--	<uitbl:template>-->
+							<!--		<m:Text class="revColor" text="{ path: 'ReviewComplete', formatter: '.formatter.isReviewByStatus' }"/>-->
+							<!--	</uitbl:template>-->
+							<!--</uitbl:Column>-->
+							<uitbl:Column width="8rem" filterProperty="Zzbillmthd" sortProperty="Zzbillmthd" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Zzbillmthd" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzbillmthd" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Billing Method"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzbillmthd" value="{Zzbillmthd}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzawtypflag" sortProperty="Zzawtypflag" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "Zzawtypflag" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzawtypflag" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzawtypflag"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzawtypflag" value="{Zzawtypflag}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzbeamount" sortProperty="Zzbeamount" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Zzbeamount" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzbeamount" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzbeamount"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzbeamount" value="{Zzbeamount}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzbeflag" sortProperty="Zzbeflag" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Zzbeflag" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzbeflag" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzbeflag"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzbeflag" value="{Zzbeflag}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="BaName" sortProperty="BaName" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "BaName" , "maxLength": "5","columnIndex":"20", "leadingProperty": "BaName" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="BaName"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="BaName" value="{BaName}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="BillingCoord" sortProperty="BillingCoord" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "BillingCoord" , "maxLength": "5","columnIndex":"20", "leadingProperty": "BillingCoord" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="BillingCoord"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="BillingCoord" value="{BillingCoord}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="BillingCoordName" sortProperty="BillingCoordName" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "BillingCoordName" , "maxLength": "5","columnIndex":"20", "leadingProperty": "BillingCoordName" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="BillingCoordName"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="BillingCoordName" value="{BillingCoordName}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="BillingPartner" sortProperty="BillingPartner" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "BillingPartner" , "maxLength": "5","columnIndex":"20", "leadingProperty": "BillingPartner" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="BillingPartner"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="BillingPartner" value="{BillingPartner}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="BlockNarrative" sortProperty="BlockNarrative" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "BlockNarrative" , "maxLength": "5","columnIndex":"20", "leadingProperty": "BlockNarrative" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="BlockNarrative"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="BlockNarrative" value="{BlockNarrative}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Bstdk" sortProperty="Bstdk" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Bstdk" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Bstdk" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Bstdk"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Bstdk" value="{Bstdk}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Budat" sortProperty="Budat" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Budat" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Budat" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Budat"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Budat" value="{Budat}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Client" sortProperty="Client" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Client" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Client" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Client"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Client" value="{Client}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="ClientPriconf" sortProperty="ClientPriconf" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "ClientPriconf" , "maxLength": "5","columnIndex":"20", "leadingProperty": "ClientPriconf" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="ClientPriconf"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="ClientPriconf" value="{ClientPriconf}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="CreationSource" sortProperty="CreationSource" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "CreationSource" , "maxLength": "5","columnIndex":"20", "leadingProperty": "CreationSource" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="CreationSource"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="CreationSource" value="{CreationSource}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="DbCreate" sortProperty="DbCreate" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "DbCreate" , "maxLength": "5","columnIndex":"20", "leadingProperty": "DbCreate" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="DbCreate"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="DbCreate" value="{DbCreate}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="DbDate" sortProperty="DbDate" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "DbDate" , "maxLength": "5","columnIndex":"20", "leadingProperty": "DbDate" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="DbDate"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="DbDate" value="{DbDate}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="DiscAmount" sortProperty="DiscAmount" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "DiscAmount" , "maxLength": "5","columnIndex":"20", "leadingProperty": "DiscAmount" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="DiscAmount"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="DiscAmount" value="{DiscAmount}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Discount" sortProperty="Discount" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Discount" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Discount" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Discount"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Discount" value="{Discount}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="DiscPercent" sortProperty="DiscPercent" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "DiscPercent" , "maxLength": "5","columnIndex":"20", "leadingProperty": "DiscPercent" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="DiscPercent"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="DiscPercent" value="{DiscPercent}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Erdat" sortProperty="Erdat" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Erdat" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Erdat" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Erdat"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Erdat" value="{Erdat}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="FAKSK" sortProperty="FAKSK" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "FAKSK" , "maxLength": "5","columnIndex":"20", "leadingProperty": "FAKSK" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="FAKSK"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="FAKSK" value="{FAKSK}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="FKDAT" sortProperty="FKDAT" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "FKDAT" , "maxLength": "5","columnIndex":"20", "leadingProperty": "FKDAT" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="FKDAT"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="FKDAT" value="{FKDAT}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Has_Late_Wip" sortProperty="Has_Late_Wip" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "Has_Late_Wip" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Has_Late_Wip" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Has_Late_Wip"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Has_Late_Wip" value="{Has_Late_Wip}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="HeaderText" sortProperty="HeaderText" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "HeaderText" , "maxLength": "5","columnIndex":"20", "leadingProperty": "HeaderText" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="HeaderText"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="HeaderText" value="{HeaderText}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Isebill" sortProperty="Isebill" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Isebill" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Isebill" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Isebill"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Isebill" value="{Isebill}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Iseditable" sortProperty="Iseditable" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Iseditable" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Iseditable" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Iseditable"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Iseditable" value="{Iseditable}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Iserror" sortProperty="Iserror" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Iserror" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Iserror" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Iserror"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Iserror" value="{Iserror}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Koei1" sortProperty="Koei1" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Koei1" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Koei1" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Koei1"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Koei1" value="{Koei1}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Kunrg" sortProperty="Kunrg" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Kunrg" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Kunrg" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Kunrg"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Kunrg" value="{Kunrg}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Kursk" sortProperty="Kursk" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Kursk" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Kursk" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Kursk"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Kursk" value="{Kursk}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="MatterLongName" sortProperty="MatterLongName" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "MatterLongName" , "maxLength": "5","columnIndex":"20", "leadingProperty": "MatterLongName" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="MatterLongName"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="MatterLongName" value="{MatterLongName}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="MatterMattorney" sortProperty="MatterMattorney" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "MatterMattorney" , "maxLength": "5","columnIndex":"20", "leadingProperty": "MatterMattorney" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="MatterMattorney"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="MatterMattorney" value="{MatterMattorney}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="MatterMattorneyName" sortProperty="MatterMattorneyName" showSortMenuEntry="true"
+								autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "MatterMattorneyName" , "maxLength": "5","columnIndex":"20", "leadingProperty": "MatterMattorneyName" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="MatterMattorneyName"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="MatterMattorneyName" value="{MatterMattorneyName}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="MatterPriconf" sortProperty="MatterPriconf" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "MatterPriconf" , "maxLength": "5","columnIndex":"20", "leadingProperty": "MatterPriconf" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="MatterPriconf"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="MatterPriconf" value="{MatterPriconf}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Mgbill" sortProperty="Mgbill" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Mgbill" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Mgbill" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Mgbill"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Mgbill" value="{Mgbill}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Mpatner" sortProperty="Mpatner" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Mpatner" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Mpatner" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Mpatner"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Mpatner" value="{Mpatner}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="MpatnerParvw" sortProperty="MpatnerParvw" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "MpatnerParvw" , "maxLength": "5","columnIndex":"20", "leadingProperty": "MpatnerParvw" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="MpatnerParvw"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="MpatnerParvw8" value="{MpatnerParvw}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="NetAmount" sortProperty="NetAmount" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "NetAmount" , "maxLength": "5","columnIndex":"20", "leadingProperty": "NetAmount" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="NetAmount"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="NetAmount" value="{NetAmount}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="PayerName" sortProperty="PayerName" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "PayerName" , "maxLength": "5","columnIndex":"20", "leadingProperty": "PayerName" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="PayerName"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="PayerName" value="{PayerName}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="PriceCntrl" sortProperty="PriceCntrl" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "PriceCntrl" , "maxLength": "5","columnIndex":"20", "leadingProperty": "PriceCntrl" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="PriceCntrl"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="PriceCntrl" value="{PriceCntrl}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Prsdt" sortProperty="Prsdt" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Prsdt" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Prsdt" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Prsdt"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Prsdt" value="{Prsdt}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="PWHIE" sortProperty="PWHIE" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "PWHIE" , "maxLength": "5","columnIndex":"20", "leadingProperty": "PWHIE" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="PWHIE"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="PWHIE" value="{PWHIE}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Reviewer" sortProperty="Reviewer" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Reviewer" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Reviewer" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Reviewer"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Reviewer" value="{Reviewer}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="ReviewerName" sortProperty="ReviewerName" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "ReviewerName" , "maxLength": "5","columnIndex":"20", "leadingProperty": "ReviewerName" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="ReviewerName"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="ReviewerName" value="{ReviewerName}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Rptgroup" sortProperty="Rptgroup" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Rptgroup" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Rptgroup" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Rptgroup"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Rptgroup" value="{Rptgroup}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="SearchString" sortProperty="SearchString" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "SearchString" , "maxLength": "5","columnIndex":"20", "leadingProperty": "SearchString" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="SearchString"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="SearchString" value="{SearchString}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Taxk1" sortProperty="Taxk1" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Taxk1" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Taxk1" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Taxk1"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Taxk1" value="{Taxk1}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Tdname" sortProperty="Tdname" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Tdname" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Tdname" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Tdname"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Tdname" value="{Tdname}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="ToStatus" sortProperty="ToStatus" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "ToStatus" , "maxLength": "5","columnIndex":"20", "leadingProperty": "ToStatus" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="ToStatus"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="ToStatus" value="{ToStatus}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="TypeOfApproval" sortProperty="TypeOfApproval" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "TypeOfApproval" , "maxLength": "5","columnIndex":"20", "leadingProperty": "TypeOfApproval" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="TypeOfApproval"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="TypeOfApproval" value="{TypeOfApproval}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="UserRole" sortProperty="UserRole" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "UserRole" , "maxLength": "5","columnIndex":"20", "leadingProperty": "UserRole" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="UserRole"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="UserRole" value="{UserRole}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="VbelnVf" sortProperty="VbelnVf" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "VbelnVf" , "maxLength": "5","columnIndex":"20", "leadingProperty": "VbelnVf" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="VbelnVf"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="VbelnVf" value="{VbelnVf}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Vkorg" sortProperty="Vkorg" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Vkorg" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Vkorg" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Vkorg"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Vkorg" value="{Vkorg}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Werks" sortProperty="Werks" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Werks" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Werks" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Werks"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Werks" value="{Werks}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="WfStatus" sortProperty="WfStatus" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "WfStatus" , "maxLength": "5","columnIndex":"20", "leadingProperty": "WfStatus" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="WfStatus"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="WfStatus" value="{WfStatus}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="WhtTax" sortProperty="WhtTax" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "WhtTax" , "maxLength": "5","columnIndex":"20", "leadingProperty": "WhtTax" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="WhtTax"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="WhtTax" value="{WhtTax}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zterm" sortProperty="Zterm" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Zterm" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zterm" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zterm"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zterm" value="{Zterm}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="ZtermText" sortProperty="ZtermText" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "ZtermText" , "maxLength": "5","columnIndex":"20", "leadingProperty": "ZtermText" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="ZtermText"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="ZtermText" value="{ZtermText}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzbalamount" sortProperty="Zzbalamount" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "Zzbalamount" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzbalamount" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzbalamount"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzbalamount" value="{Zzbalamount}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzbillamount" sortProperty="Zzbillamount" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "Zzbillamount" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzbillamount" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzbillamount"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzbillamount" value="{Zzbillamount}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="ZzbillmthdDesc" sortProperty="ZzbillmthdDesc" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "ZzbillmthdDesc" , "maxLength": "5","columnIndex":"20", "leadingProperty": "ZzbillmthdDesc" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="ZzbillmthdDesc"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="ZzbillmthdDesc" value="{ZzbillmthdDesc}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzcapamount" sortProperty="Zzcapamount" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "Zzcapamount" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzcapamount" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzcapamount"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzcapamount" value="{Zzcapamount}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzclientpricinggroup" sortProperty="Zzclientpricinggroup" showSortMenuEntry="true"
+								autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "Zzclientpricinggroup" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzclientpricinggroup" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzclientpricinggroup"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzclientpricinggroup" value="{Zzclientpricinggroup}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzclientpricinggroupk" sortProperty="Zzclientpricinggroupk" showSortMenuEntry="true"
+								autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "Zzclientpricinggroupk" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzclientpricinggroupk" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzclientpricinggroupk"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzclientpricinggroupk" value="{Zzclientpricinggroupk}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzcreditamt" sortProperty="Zzcreditamt" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "Zzcreditamt" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzcreditamt" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzcreditamt"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzcreditamt" value="{Zzcreditamt}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="ZzcreditamtDesc" sortProperty="ZzcreditamtDesc" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "ZzcreditamtDesc" , "maxLength": "5","columnIndex":"20", "leadingProperty": "ZzcreditamtDesc" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="ZzcreditamtDesc"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="ZzcreditamtDesc" value="{ZzcreditamtDesc}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzcreditcurr" sortProperty="Zzcreditcurr" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "Zzcreditcurr" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzcreditcurr" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzcreditcurr"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzcreditcurr" value="{Zzcreditcurr}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="ZzcreditTax" sortProperty="ZzcreditTax" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "ZzcreditTax" , "maxLength": "5","columnIndex":"20", "leadingProperty": "ZzcreditTax" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="ZzcreditTax"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="ZzcreditTax" value="{ZzcreditTax}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzfundcurr" sortProperty="Zzfundcurr" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Zzfundcurr" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzfundcurr" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzfundcurr"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzfundcurr" value="{Zzfundcurr}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzfundsamt" sortProperty="Zzfundsamt" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Zzfundsamt" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzfundsamt" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzfundsamt"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzfundsamt" value="{Zzfundsamt}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzgrpbill" sortProperty="Zzgrpbill" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Zzgrpbill" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzgrpbill" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzgrpbill"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzgrpbill" value="{Zzgrpbill}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzmatterpricinggroup" sortProperty="Zzmatterpricinggroup" showSortMenuEntry="true"
+								autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "Zzmatterpricinggroup" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzmatterpricinggroup" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzmatterpricinggroup"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzmatterpricinggroup" value="{Zzmatterpricinggroup}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zzmatterpricinggroupk" sortProperty="Zzmatterpricinggroupk" showSortMenuEntry="true"
+								autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "Zzmatterpricinggroupk" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzmatterpricinggroupk" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zzmatterpricinggroupk"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zzmatterpricinggroupk" value="{Zzmatterpricinggroupk}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zztrustamt" sortProperty="Zztrustamt" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData" value='\{"columnKey": "Zztrustamt" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zztrustamt" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zztrustamt"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zztrustamt" value="{Zztrustamt}"/></uitbl:template>
+							</uitbl:Column>
+							<uitbl:Column width="8rem" filterProperty="Zztrustcurr" sortProperty="Zztrustcurr" showSortMenuEntry="true" autoResizable="true">
+								<uitbl:customData>
+									<core:CustomData key="p13nData"
+										value='\{"columnKey": "Zztrustcurr" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zztrustcurr" }'/></uitbl:customData>
+								<uitbl:label>
+									<Text text="Zztrustcurr"/></uitbl:label>
+								<uitbl:template>
+									<smartField:SmartField editable="false" id="Zztrustcurr" value="{Zztrustcurr}"/></uitbl:template>
+							</uitbl:Column>
+						</uitbl:columns>
+					</uitbl:Table>
+				</smartTable:SmartTable>
+			</VBox>
+			<VBox id="NarrativeEditsVBox" visible="false">
+				<mvc:XMLView viewName="dbedit.view.NarrativeEdits"/>
+			</VBox>
+			<VBox id="HeaderEditsVbox" visible="false">
+				<mvc:XMLView viewName="dbedit.view.HeaderEdits"/>
+			</VBox>
+			<VBox id="LineItemEditsVbox" visible="false">
+				<mvc:XMLView viewName="dbedit.view.LineItemEdits"/>
+			</VBox>
+			<VBox id="LineItemTransfersVbox" visible="false">
+				<mvc:XMLView viewName="dbedit.view.LineItemTransfers"/>
+			</VBox>
+			<VBox id="WrittenDownVbox" visible="false">
+				<mvc:XMLView viewName="dbedit.view.WrittenDown"/>
+			</VBox>
+			<VBox id="BillSummaryVbox" visible="false">
+				<mvc:XMLView viewName="dbedit.view.BillSummary"/>
+			</VBox>
+		</content>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button text="Create Final Bill" press="CreateFinalBillFuntion" visible="{InputsModel>/Inputs/Toolbar/CreateFinalBill}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/CreateFinalBill}"/>
+				<Button text="Cancel Draft Bill" press="CancelDraftBillFuntion" visible="{InputsModel>/Inputs/Toolbar/CancelDraftBill}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/CancelDraftBill}"/>
+				<Button text="Print Final Bill" press="PrintFinalBillFuntion" visible="{InputsModel>/Inputs/Toolbar/PrintFinalBill}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/PrintFinalBill}"/>
+				<Button text="Print Draft Bill" press="PrintDraftBillFuntion" visible="{InputsModel>/Inputs/Toolbar/PrintDraftBill}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/PrintDraftBill}"/>
+				<Button text="Change Status" press="ChangeStatusFunction" visible="{InputsModel>/Inputs/Toolbar/ChangeStatus}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/ChangeStatus}"/>
+				<!--NARRATIVE EDITS TABLE FUNCTIONALITIES-->
+				<Button text="Save" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/Save}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/Save}"/>
+				<Button text="Replace Words" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/ReplaceWords}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/ReplaceWords}"/>
+				<Button text="Reviewed" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/Reviewed}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/Reviewed}"/>
+				<Button text="UnReviewed" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/UnReviewed}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/UnReviewed}"/>
+				<Button text="Global Spell Check" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/GlobalSpellCheck}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/GlobalSpellCheck}"/>
+					
+						<!--HEADER EDITS TABLE FUNCTIONALITIES-->	
+				<Button text="Re-Price" press="HeaderFunction" visible="{InputsModel>/Inputs/Toolbar/Reprice}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/Reprice}"/>
+				<Button text="Add Comments" press="HeaderFunction" visible="{InputsModel>/Inputs/Toolbar/AddComments}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/AddComments}"/>
+				<Button text="Postpone" press="onPostpone" visible="{InputsModel>/Inputs/Toolbar/Postpone}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/Postpone}"/>
+				<Button text="Full Write Down" press="onFullWriteDown" visible="{InputsModel>/Inputs/Toolbar/FullWriteDown}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/FullWriteDown}"/>
+				<Button text="Line Item Re-Price" press="onLineItemReprice" visible="{InputsModel>/Inputs/Toolbar/LineItemReprice}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/LineItemReprice}"/>
+				<Button text="Write Up/Down" press="onWriteUpDown" visible="{InputsModel>/Inputs/Toolbar/WriteUpDown}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/WriteUpDown}"/>
+				<Button text="Bill Exact Amount" press="onBillExactAmount" visible="{InputsModel>/Inputs/Toolbar/BillExactAmount}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/BillExactAmount}"/>
+				<Button text="Rate Override" press="onRateOverride" visible="{InputsModel>/Inputs/Toolbar/RateOverride}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/RateOverride}"/>
+				<Button text="Update Codes" press="onUpdateCodes" visible="{InputsModel>/Inputs/Toolbar/UpdateCodes}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/UpdateCodes}"/>
+				<Button text="Transfer" press="onTransfer" visible="{InputsModel>/Inputs/Toolbar/Transfer}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/Transfer}"/>
+				<Button text="Consolidate" press="LineItemTransferfunction" visible="{InputsModel>/Inputs/Toolbar/Consolidate}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/Consolidate}"/>
+				<Button text="Split Transfer" press="onSplitTransfer" visible="{InputsModel>/Inputs/Toolbar/SplitTransfer}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/SplitTransfer}"/>
+				<Button text="Undo" press="onUndo" visible="{InputsModel>/Inputs/Toolbar/Undo}" enabled="{InputsModel>/Inputs/ToolbarEnable/Undo}"/>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

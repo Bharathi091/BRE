@@ -1,0 +1,273 @@
+<mvc:View controllerName="dbedit.controller.HeaderEdits" height="100%" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:sl="sap.ui.comp.navpopover" xmlns:smartChart="sap.ui.comp.smartchart" xmlns:core="sap.ui.core"
+	xmlns:smartTable="sap.ui.comp.smarttable" xmlns:m="sap.m" xmlns:l="sap.ui.layout" xmlns:uitbl="sap.ui.table"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:tnt="sap.tnt" xmlns:smartField="sap.ui.comp.smartfield"
+	xmlns:smartFilter="sap.ui.core.Control" xmlns:f="sap.ui.layout.form"
+	xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" xmlns:semantic="sap.m.semantic"
+	xmlns:footerbar="sap.ushell.ui.footerbar" xmlns:smartList="sap.ui.comp.smartlist" xmlns:a="sap.m.IconTabFilterDesign">
+	<smartTable:SmartTable enableCustomFilter="false" visible="true" id="smartTable_ResponsiveTable3" entitySet="BillSummarySet"
+		smartFilterId="SmartFilterBar" tableType="AnalyticalTable" showRowCount="true" useVariantManagement="true" useTablePersonalisation="true"
+		header="Draft Bills" useExportToExcel="false" beforeRebindTable="onBeforeRebindTable" dataReceived="onDataReceived" fitContainer="true"
+		beforeExport="beforeExport">
+		<smartTable:customToolbar>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<!--<Button icon="sap-icon://question-mark" tooltip="help" press="onhelp"/>-->
+				<!--<Button text="More settings" press="ontablesettings"/>-->
+				<Button icon="sap-icon://synchronize" tooltip="refresh" press="refreshTable"/>
+			</Toolbar>
+		</smartTable:customToolbar>
+		<smartTable:layoutData>
+			<m:FlexItemData growFactor="1" baseSize="0%"/>
+		</smartTable:layoutData>
+		<uitbl:Table id="headerEdits" rows="{InputsModel>/SelectedRowArray}" selectionMode="None">
+			<uitbl:columns>
+				<uitbl:Column width="7rem" sortProperty="Message" showSortMenuEntry="true" filterProperty="Message" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "Message" , "maxLength": "5","columnIndex":"2", "leadingProperty": "Message" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Status Message}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{Message}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" sortProperty="WfStatusText" showSortMenuEntry="true" filterProperty="WfStatusText" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData"
+							value='\{"columnKey": "WfStatusText" , "maxLength": "5","columnIndex":"3", "leadingProperty": "WfStatusText" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Work Flow Status}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{WfStatusText}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" sortProperty="WfComments" showSortMenuEntry="true" filterProperty="WfComments" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "WfComments" , "maxLength": "5","columnIndex":"4", "leadingProperty": "WfComments" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Comments}"/>
+					</uitbl:label>
+					<uitbl:template>
+					<m:Button type="Emphasized" visible="false"
+							icon="sap-icon://comment" tooltip="chat" press="LinecommentsMethod"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" sortProperty="Status" showSortMenuEntry="true" filterProperty="Status" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "Status" , "maxLength": "5","columnIndex":"6", "leadingProperty": "Status" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Status}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{Status}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" sortProperty="isattachment" showSortMenuEntry="true" filterProperty="isattachment" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData"
+							value='\{"columnKey": "isattachment" , "maxLength": "5","columnIndex":"6", "leadingProperty": "isattachment" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Attachments}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{isattachment}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<!--Additional and billaprrover columns-->
+				<!--	<uitbl:Column width="7rem" sortProperty="Status" showSortMenuEntry="true" filterProperty="Status" showFilterMenuEntry="true"-->
+				<!--	autoResizable="true">-->
+				<!--	<uitbl:customData>-->
+				<!--		<core:CustomData key="p13nData" value='\{"columnKey": "Status" , "maxLength": "7","columnIndex":"6", "leadingProperty": "Status" }'/>-->
+				<!--	</uitbl:customData>-->
+				<!--	<uitbl:label>-->
+				<!--		<m:Text text="{i18n>Status}"/>-->
+				<!--	</uitbl:label>-->
+				<!--	<uitbl:template>-->
+				<!--		<m:Text width="100%" text="{Status}"/>-->
+				<!--	</uitbl:template>-->
+				<!--</uitbl:Column>-->
+				<!--<uitbl:Column width="7rem" sortProperty="isattachment" showSortMenuEntry="true" filterProperty="isattachment" showFilterMenuEntry="true"-->
+				<!--	autoResizable="true">-->
+				<!--	<uitbl:customData>-->
+				<!--		<core:CustomData key="p13nData"-->
+				<!--			value='\{"columnKey": "isattachment" , "maxLength": "5","columnIndex":"8", "leadingProperty": "isattachment" }'/>-->
+				<!--	</uitbl:customData>-->
+				<!--	<uitbl:label>-->
+				<!--		<m:Text text="{i18n>Attachments}"/>-->
+				<!--	</uitbl:label>-->
+				<!--	<uitbl:template>-->
+				<!--		<m:Text width="100%" text="{isattachment}"/>-->
+				<!--	</uitbl:template>-->
+				<!--</uitbl:Column>-->
+				<uitbl:Column width="7rem" sortProperty="ClientName" showSortMenuEntry="true" filterProperty="ClientName" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "ClientName" , "maxLength": "5","columnIndex":"9", "leadingProperty": "ClientName" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>ClientName}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{Client Name}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" sortProperty="Pspid" showSortMenuEntry="true" filterProperty="Pspid" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "Pspid" , "maxLength": "5","columnIndex":"10", "leadingProperty": "Pspid" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Matter No}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{Pspid}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" sortProperty="Post1" showSortMenuEntry="true" filterProperty="Post1" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "Post1" , "maxLength": "5","columnIndex":"11", "leadingProperty": "Post1" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Matter Description}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{Post1}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" sortProperty="Vbeln" showSortMenuEntry="true" filterProperty="Vbeln" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "Vbeln" , "maxLength": "5","columnIndex":"12", "leadingProperty": "Vbeln" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Draft Bill}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{Vbeln}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" filterProperty="Audat" showFilterMenuEntry="false" sortProperty="Audat" showSortMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "Audat" , "maxLength": "5","columnIndex":"13", "leadingProperty": "Audat" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<Text text="Date"/>
+					</uitbl:label>
+					<uitbl:template>
+						<smartField:SmartField editable="false" id="Belnr0" value="{Audat}"/>
+						<m:Text width="100%" text="{ path: 'Audat', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'dd.MM.yyyy' } }"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" sortProperty="Waers" showSortMenuEntry="true" filterProperty="Waers" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "Waers" , "maxLength": "5","columnIndex":"14", "leadingProperty": "Waers" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Currency}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{Waers}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" sortProperty="NetFees" showSortMenuEntry="true" filterProperty="NetFees" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData"
+							value='\{"columnKey": "NetFees" , "maxLength": "5","columnIndex":"15", "leadingProperty": "ReviewComplete" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Net Fees}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{NetFees}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" sortProperty="NetCost" showSortMenuEntry="true" filterProperty="NetCost" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "NetCost" , "maxLength": "5","columnIndex":"16", "leadingProperty": "NetCost" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Net Disb}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{NetCost}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" sortProperty="Tax" showSortMenuEntry="true" filterProperty="Tax" showFilterMenuEntry="true" autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "Tax" , "maxLength": "5","columnIndex":"17", "leadingProperty": "Tax" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Tax}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{Tax}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<uitbl:Column width="7rem" sortProperty="WhtTax" showSortMenuEntry="true" filterProperty="WhtTax" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "WhtTax" , "maxLength": "5","columnIndex":"18", "leadingProperty": "WhtTax" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Withholding Tax}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{WhtTax}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				<!--finalbillkey-->
+				
+				<!--<uitbl:Column width="7rem" sortProperty="Zzbillmthd" showSortMenuEntry="true" filterProperty="Zzbillmthd" showFilterMenuEntry="true"-->
+				<!--	autoResizable="true">-->
+				<!--	<uitbl:customData>-->
+				<!--		<core:CustomData key="p13nData" value='\{"columnKey": "Zzbillmthd" , "maxLength": "5","columnIndex":"20", "leadingProperty": "Zzbillmthd" }'/>-->
+				<!--	</uitbl:customData>-->
+				<!--	<uitbl:label>-->
+				<!--		<m:Text text="{i18n>Billing Method}"/>-->
+				<!--	</uitbl:label>-->
+				<!--	<uitbl:template>-->
+				<!--		<m:Text width="100%" text="{Zzbillmthd}"/>-->
+				<!--	</uitbl:template>-->
+				<!--</uitbl:Column>-->
+				<uitbl:Column width="7rem" sortProperty="NetAmount" showSortMenuEntry="true" filterProperty="NetAmount" showFilterMenuEntry="true"
+					autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "NetAmount" , "maxLength": "5","columnIndex":"19", "leadingProperty": "NetAmount" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<m:Text text="{i18n>Total}"/>
+					</uitbl:label>
+					<uitbl:template>
+						<m:Text width="100%" text="{NetAmount}"/>
+					</uitbl:template>
+				</uitbl:Column>
+				
+			</uitbl:columns>
+		</uitbl:Table>
+	</smartTable:SmartTable>
+	<!--<Toolbar class="toolbar">-->
+	<!--	<ToolbarSpacer/>-->
+	<!--	<Button text="Save" press="onNarrativeEditsSave" id="Save"></Button>-->
+	<!--	<Button text="Review" press="ReviewUnreview" id="Review" visible="false"></Button>-->
+	<!--	<Button text="Unreview" press="ReviewUnreview" id="Unreview" visible="false"></Button>-->
+	<!--	<Button text="GlobalSpellCheck" press="onGlobalSpellCheck"></Button>-->
+	<!--	<Button text="ReplaceWords" press="onReplacewords" id="ReplaceWords" visible="false"></Button>-->
+	<!--</Toolbar>-->
+</mvc:View>
