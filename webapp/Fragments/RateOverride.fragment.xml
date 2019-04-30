@@ -1,0 +1,45 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
+	xmlns:smartField="sap.ui.comp.smartfield" xmlns:smartMultiInput="sap.ui.comp.smartmultiinput"  xmlns:m="sap.m">
+	<Dialog title="Rate Override">
+		<l:Grid defaultSpan="L12 M12 S12" width="auto" id="idGrid">
+			<l:content>
+			
+				<Label text="Bill Rate" />
+				<Input id="BillRate" value=""/>
+				<Table id="rateOverridetable">
+					<columns>
+						<Column width="160px">
+							<Text text="Info"/>
+						</Column>
+						<Column width="80px">
+							<Text text="Time Keeper Name"/>
+						</Column>
+						<Column width="80px">
+							<Text text="Base Rate"/>
+						</Column>
+						<Column width="80px">
+							<Text text="Base Quantity"/>
+						</Column>
+						<Column width="80px">
+							<Text text="Base Value"/>
+						</Column>
+						<Column width="80px">
+							<Text text="Actual Rate"/>
+						</Column>
+						<Column width="80px">
+							<Text text="Actual Quantity"/>
+						</Column>
+							<Column width="80px">
+							<Text text="Actual Value"/>
+						</Column>
+					</columns>
+					<items></items>
+				</Table>
+			</l:content>
+		</l:Grid>
+		<buttons>
+			<Button text="Save" press="onRateOverrideSave" type="Accept"/>
+			<Button text="Cancel" press="closeRateOverrideDialog" type="Reject"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

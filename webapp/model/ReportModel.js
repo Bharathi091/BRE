@@ -9,14 +9,34 @@ sap.ui.define([
 			BaseObject.call(this);
 
 			this.Inputs = {
-				results:[],
+				indexes: [],
+				lineItemEditIndexes: [],
+				results: [],
 				selectedRow: {},
-				selectedRows:[],
-				rowNarrativeCount:[],
-				rowLineCount:[],
-				tableData:[],
+				selectedRows: [],
+				rowNarrativeCount: [],
+				rowLineCount: [],
+				rowLineTransferCount: [],
+				tableData: [],
 				printbillsData: {},
-				printfinalData : {},
+				printfinalData: {},
+				createmassMatter: [{
+					"key": "Pspid",
+					"type": "smartfield",
+					"userCol": "To Matter",
+					"width": "90px"
+				}, {
+					"key": "Vbeln",
+					"type": "select",
+					"userCol": "Bill no",
+					"width": "90px"
+
+				}],
+			
+				Column: [{
+					Pspid: "",
+					Vbeln: []
+				}],
 				qParms: {
 					SESSION_ID: "?session_id=",
 					FILTER: "?$filter=",
@@ -131,7 +151,7 @@ sap.ui.define([
 					"VarinatSaveSet": "/VarinatSaveSet",
 					"GetLogSet": "GetLogSet",
 					"lookup": {
-					  "COUNTRY": "/countrylookup/"
+						"COUNTRY": "/countrylookup/"
 					},
 					"OfficeSet": "/BillingOfficeSet",
 					"HT001Set": "/SalesOrgSet",
@@ -141,62 +161,262 @@ sap.ui.define([
 					"billdataset": "/BillSummarySet('"
 
 				},
-				
+				editableIndexes: [0],
+				createcontrols: [{
+						"key": "Pspid",
+						"type": "smartfield",
+						"userCol": "Target Matter",
+						"width": "90px"
+					}, {
+						"key": "Vbeln",
+						"type": "Select",
+						"userCol": "To Draft Bill",
+						"width": "80px"
+
+					}, {
+						"key": "ToPhase",
+						"type": "Select",
+						"userCol": "Phase Code",
+						"width": "80px"
+
+					}, {
+						"key": "ToZztskcd",
+						"type": "Select",
+						"userCol": "Task Code",
+						"width": "80px"
+					}, {
+						"key": "ToZzactcd",
+						"type": "Select",
+						"userCol": "Activity Code",
+						"width": "80px"
+					}, {
+						"key": "ToZzfftskcd",
+						"type": "Select",
+						"userCol": "Flat Fee taskCode",
+						"width": "80px"
+					}, {
+						"key": "ToZzffactcd",
+						"type": "Select",
+						"userCol": "Flat Fee ActivityCode",
+						"width": "80px"
+					}, {
+						"key": "ActualQty",
+						"type": "Input",
+						"userCol": "Qty",
+						"width": "80px"
+					}, {
+						"key": "Percent",
+						"type": "Input",
+						"userCol": "%",
+						"width": "60px"
+					}, {
+						"type": "Button",
+						"userCol": "",
+						"width": "50px"
+					}, {
+						"type": "Icon",
+						"userCol": "",
+						"width": "50px"
+					}
+
+				],
+				Columns: [{
+					Pspid: "",
+					Vbeln: [],
+					ToPhase: [],
+					ToZztskcd: [],
+					ToZzactcd: [],
+					ToZzfftskcd: [],
+					ToZzffactcd: [],
+					ActualQty: "",
+					Percent: "",
+					selPhaseKey: "",
+					selTskKey: "",
+					selActKey: "",
+					selFfTskKey: "",
+					selFfActKey: ""
+
+				}],
 				Toolbar: {
 					CreateFinalBill: true,
 					CancelDraftBill: true,
-					PrintFinalBill:true,
-					PrintDraftBill:true,
-					ChangeStatus: true,
-					Save:false,
-					ReplaceWords:false,
-					Reviewed:false,
-					UnReviewed:false,
-					GlobalSpellCheck:false,
-					Reprice:false,
-					AddComments:false,
-					Postpone:false,
-					FullWriteDown:false,
-					LineItemReprice:false,
-					WriteUpDown:false,
-					BillExactAmount:false,
-					RateOverride:false,
-					UpdateCodes:false,
-					Transfer:false,
-					Consolidate:false,
-					SplitTransfer:false,
-					Undo:false
-					
-					
+					PrintFinalBill: true,
+					HomePrintDraftBill: true,
+					HomeChangeStatus: true,
+
+					NarrativeSave: false,
+					NarrativeReplaceWords: false,
+					NarrativeReviewed: false,
+					NarrativeUnReviewed: false,
+					GlobalSpellCheck: false,
+
+					Reprice: false,
+					HeaderAddComments: false,
+					HeaderChangeStatus: false,
+					HeaderSave: false,
+					HeaderPrintDraftBill: false,
+
+					LineItemSave: false,
+					Postpone: false,
+					LineItemAddComments: false,
+					LineItemReplaceWords: false,
+					FullWriteDown: false,
+					LineItemReprice: false,
+					WriteUpDown: false,
+					BillExactAmount: false,
+					RateOverride: false,
+					LineItemUpdateCodes: false,
+					LineItemReviewed: false,
+					LineItemUnReviewed: false,
+
+					LineItemTransferSave: false,
+					LineItemTransferReviewed: false,
+					LineItemTransferUnReviewed: false,
+					Transfer: false,
+					Consolidate: false,
+					SplitTransfer: false,
+					LineItemTransferUpdateCodes: false,
+					TransferPrintDraftBill: false,
+					TransferChangeStatus: false,
+
+					Undo: false
+
 				},
 
 				ToolbarEnable: {
 					CreateFinalBill: false,
 					CancelDraftBill: false,
-					PrintFinalBill:false,
-					PrintDraftBill:false,
-					ChangeStatus: false,
-					Save:false,
-					ReplaceWords:false,
-					Reviewed:false,
-					UnReviewed:false,
-					GlobalSpellCheck:false,
-					Reprice:true,
-					AddComments:true,
-					Postpone:false,
-					FullWriteDown:false,
-					LineItemReprice:false,
-					WriteUpDown:false,
-					BillExactAmount:true,
-					RateOverride:false,
-					UpdateCodes:false, 
-					Transfer:false,
-					Consolidate:false,
-					SplitTransfer:false,
-					Undo:false
+					PrintFinalBill: false,
+					HomePrintDraftBill: false,
+					HomeChangeStatus: false,
+
+					NarrativeSave: false,
+					NarrativeReplaceWords: false,
+					NarrativeReviewed: false,
+					NarrativeUnReviewed: false,
+					GlobalSpellCheck: false,
+
+					Reprice: true,
+					HeaderAddComments: true,
+					HeaderChangeStatus: true,
+					HeaderSave: true,
+					HeaderPrintDraftBill: true,
+
+					LineItemSave: false,
+					Postpone: false,
+					LineItemAddComments: false,
+					LineItemReplaceWords: false,
+					FullWriteDown: false,
+					LineItemReprice: false,
+					WriteUpDown: false,
+					BillExactAmount: true,
+					RateOverride: false,
+					LineItemUpdateCodes: false,
+					LineItemReviewed: false,
+					LineItemUnReviewed: false,
+
+					LineItemTransferSave: false,
+					LineItemTransferReviewed: false,
+					LineItemTransferUnReviewed: false,
+					Transfer: false,
+					Consolidate: false,
+					SplitTransfer: false,
+					LineItemTransferUpdateCodes: false,
+					TransferPrintDraftBill: false,
+					TransferChangeStatus: false,
+
+					Undo: false
 				},
-				dicDefLanguage: "en_US"
-			
+				dicDefLanguage: "en_US",
+				Countries_collection: [
+					//{
+					// 	Key: "ca",
+					// 	Text: "Catalan",
+					// 	lang:"ca"
+					// }, {
+					// 	Key: "cs_CZ",
+					// 	Text: "Czech",
+					// 		lang:"cs"
+					// }, {
+					// 	Key: "de_DE_frami",
+					// 	Text: "Dutch",
+					// 		lang:"nl"
+					// }, {
+					// 	Key: "en_AU",
+					// 	Text: "English(AU)",
+					// 		lang:"en"
+					// }, {
+					// 	Key: "en_CA",
+					// 	Text: "English(CA)",
+					// 		lang:"en"
+					// },
+					{
+						Key: "en_US",
+						Text: "English(US)",
+						lang: "en"
+					}, {
+						Key: "ar",
+						Text: "Arabic",
+						lang: "ar"
+					},
+					// {
+					// 	Key: "en_GB",
+					// 	Text: "English(UK)",
+					// 		lang:"en"
+					// }, 
+					{
+						Key: "fr",
+						Text: "French",
+						lang: "fr"
+					}
+					// {
+					// 	Key: "dataEn",
+					// 	Text: "German",
+					// 		lang:"de"
+					// }, {
+					// 	Key: "hu_HU",
+					// 	Text: "Hungarian",
+					// 		lang:"hu"
+					// }, {
+					// 	Key: "id_ID",
+					// 	Text: "Indonesian",
+					// 		lang:"id"
+					// },
+
+					// {
+					// 	Key: "it_IT",
+					// 	Text: "Italian",
+					// 		lang:"it"
+					// }, {
+					// 	Key: "pl_PL",
+					// 	Text: "Polish",
+					// 		lang:"pl"
+					// }, {
+					// 	Key: "pt_PT",
+					// 	Text: "Portugese",
+					// 		lang:"pt"
+					// }, {
+					// 	Key: "ru_RU",
+					// 	Text: "Russian",
+					// 		lang:"ru"
+					// }, {
+					// 	Key: "dataEn",
+					// 	Text: "Spanish",
+					// 		lang:"es"
+					// }, {
+					// 	Key: "sv_SE",
+					// 	Text: "Swedish",
+					// 		lang:"sv"
+					// }, {
+					// 	Key: "th_TH",
+					// 	Text: "Thai",
+					// 		lang:"th"
+					// }, {
+					// 	Key: "tr_TR",
+					// 	Text: "Turkish",
+					// 		lang:"tr"
+					// }
+				],
 
 			};
 		}

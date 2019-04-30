@@ -20,8 +20,19 @@
 		<smartTable:layoutData>
 			<m:FlexItemData growFactor="1" baseSize="0%"/>
 		</smartTable:layoutData>
-		<uitbl:Table id="headerEdits" rows="{InputsModel>/SelectedRowArray}" selectionMode="None">
+		<uitbl:Table id="headerEdits" rows="{InputsModel>/SelectedRowArray}" selectionMode="None" visibleRowCountMode = "Auto">
 			<uitbl:columns>
+				<uitbl:Column width="8rem" filterProperty="Action" sortProperty="Action" showSortMenuEntry="true" autoResizable="true">
+					<uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "Action" , "maxLength": "5","columnIndex":"2", "leadingProperty": "Action" }'/>
+					</uitbl:customData>
+					<uitbl:label>
+						<Text text="Info"/>
+					</uitbl:label>
+					<uitbl:template>
+						<core:Icon src="sap-icon://alert" class="size3" visible="false" id="alert" color="green"/>
+					</uitbl:template>
+				</uitbl:Column>
 				<uitbl:Column width="7rem" sortProperty="Message" showSortMenuEntry="true" filterProperty="Message" showFilterMenuEntry="true"
 					autoResizable="true">
 					<uitbl:customData>

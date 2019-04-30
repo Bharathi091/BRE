@@ -20,7 +20,7 @@
 				<SearchField width="20%" liveChange="onGlobalSearch" class="searchPosition" id="searchText3"/>
 			</Toolbar>
 		</smartTable:customToolbar>
-		<uitbl:Table id="lineItemtransfers" rowSelectionChange="LineItemTransferSelection" rows="{InputsModel>/LineitemsCopy}">
+		<uitbl:Table id="lineItemtransfers" rowSelectionChange="LineItemTransferSelection" rows="{InputsModel>/LineitemsCopy}" visibleRowCountMode = "Auto">
 			<uitbl:columns>
 				<uitbl:Column width="8rem" filterProperty="Action" sortProperty="Action" showSortMenuEntry="true" autoResizable="true">
 					<uitbl:customData>
@@ -30,7 +30,7 @@
 						<Text text="Info"/>
 					</uitbl:label>
 					<uitbl:template>
-						<core:Icon src="sap-icon://alert" class="size3" visible="false" id="alert" color="green"/>
+						<core:Icon src="sap-icon://alert" class="size3" visible="false" id="alert" color="red"/>
 					</uitbl:template>
 				</uitbl:Column>
 				<!--<uitbl:Column width="8rem" filterProperty="Zzfftskcd" sortProperty="Zzfftskcd" showSortMenuEntry="true" autoResizable="true">-->
@@ -208,13 +208,13 @@
 					<uitbl:template>
 						<smartField:SmartField editable="false" id="Tax" value="{Tax}"/></uitbl:template>
 				</uitbl:Column>
-				<uitbl:Column width="8rem" filterProperty="ToPhase" sortProperty="ToPhase" showSortMenuEntry="true" autoResizable="true">
+				<uitbl:Column width="8rem" filterProperty="ToMatter" sortProperty="ToMatter" showSortMenuEntry="true" autoResizable="true">
 					<uitbl:customData>
-						<core:CustomData key="p13nData" value='\{"columnKey": "ToPhase" , "maxLength": "5","columnIndex":"23", "leadingProperty": "ToPhase" }'/></uitbl:customData>
+						<core:CustomData key="p13nData" value='\{"columnKey": "ToMatter" , "maxLength": "5","columnIndex":"23", "leadingProperty": "ToMatter" }'/></uitbl:customData>
 					<uitbl:label>
 						<Text text="To Matter"/></uitbl:label>
 					<uitbl:template>
-						<smartField:SmartField editable="false" id="ToPhase" value="{ToPhase}"/></uitbl:template>
+						<smartField:SmartField editable="false" id="ToMatter" value="{ToMatter}"/></uitbl:template>
 				</uitbl:Column>
 				<uitbl:Column width="8rem" filterProperty="ToVbeln" sortProperty="ToVbeln" showSortMenuEntry="true" autoResizable="true">
 					<uitbl:customData>

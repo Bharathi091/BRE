@@ -1421,7 +1421,7 @@ var oldPos = 0;
 	
 		
 		var options = $.extend({
-			lang_code: "en_US",
+			lang_code: opts.lang_code,
 			Typo: Typo,
 			table: "",
 			outputTex: "outputTex",

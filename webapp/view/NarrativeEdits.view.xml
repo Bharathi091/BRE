@@ -18,10 +18,14 @@
 								<Button icon="sap-icon://play" press="removeSpaces"/>
 								<Button icon="sap-icon://synchronize" press="Reload"/>
 								<Button icon="sap-icon://excel-attachment" tooltip="downlosd" press="Export"/>
+									<Select items="{ path: 'InputsModel>/Inputs/Countries_collection'}" class="comboPosition" id="comboPosition" width="20%"
+								change="dictionaryChange" visible="true">
+								<core:Item key="{InputsModel>key}" text="{InputsModel>Text}"/>
+							</Select>
 									<SearchField width="20%" liveChange="onGlobalSearch" class="searchPosition" id="searchText1"/>
 							</Toolbar>
 						</smartTable:customToolbar>
-						<uitbl:Table id="narrativeEditsTable" firstVisibleRowChanged="scrollChange" rows="{InputsModel>/LineitemsCopy}" rowSelectionChange="narrativeTableSelection">
+						<uitbl:Table id="narrativeEditsTable" firstVisibleRowChanged="scrollChange" rows="{InputsModel>/LineitemsCopy}" rowSelectionChange="narrativeTableSelection" visibleRowCountMode = "Auto">
 							<uitbl:columns>
 								<uitbl:Column width="8rem" filterProperty="Message" sortProperty="Message" showSortMenuEntry="true" autoResizable="true">
 									<uitbl:customData>
@@ -45,7 +49,7 @@
 									<uitbl:label>
 										<Text text="Reviewed"/></uitbl:label>
 									<uitbl:template>
-										<smartField:SmartField editable="false" id="Zzreview" value="{Zzreview}"/></uitbl:template>
+										<m:Text class="revColor" text="{ path: 'Zzreview', formatter: '.formatter.isReviewByStatus' }"/></uitbl:template>
 								</uitbl:Column>
 								<uitbl:Column width="8rem" filterProperty="Posnr" sortProperty="Posnr" showSortMenuEntry="true" autoResizable="true">
 									<uitbl:customData>

@@ -154,6 +154,10 @@ sap.ui.define([
 
 			this.BillEditModel.setProperty("/Inputs/isChanged", false);
 			this.BillEditModel.setProperty("/Inputs/scope", "");
+			var aIndices = this.BillEditModel.getProperty("/Inputs/rowLineCount");
+			for (var i = 0; i < aIndices.length; i++) {
+				table.getRows()[aIndices[i]].getCells()[0].setVisible(false);
+					}
 			if (this._Dialog) {
 
 				this._Dialog.close();

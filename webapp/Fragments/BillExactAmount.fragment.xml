@@ -1,0 +1,28 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml">
+	<Dialog contentWidth="700px" contentHeight="300px" draggable="true" id="Alert" title="Bill Exact Amount">
+		<content>
+			<Label width="100%"/>
+			<Text width="100%" text="Bill Amount:                       {InputsModel>/Inputs/BillAmount}"/>
+			<Label width="100%"/>
+			<Text text="Bill Exact Amount:" width="150px"/>
+			<Input width="20%" id="billExactAmt" value=""/>
+			<Label width="5%"/>
+			<Select width="20%" forceSelection="true" id="sel1">
+				<core:Item key="01" text="Keep in Wip"/>
+				<core:Item key="02" text="Write Down"/>
+			</Select>
+			<Label width="5%"/>
+			<Select width="20%" forceSelection="true" id="sel2">
+				<core:Item key="01" text="Fee Only"/>
+				<core:Item key="02" text="Fee and Cost"/>
+			</Select>
+			<Text class="message" text="{InputsModel>/Inputs/message}" width="100%"/>
+		</content>
+		<beginButton>
+			<Button type="Default" text="{i18n>Save}" press="fnsaveBillExactAmount"/>
+		</beginButton>
+		<endButton>
+			<Button type="Default" text="Cancel" press="closeBillExactAmountDialog"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

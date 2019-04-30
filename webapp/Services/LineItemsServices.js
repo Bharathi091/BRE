@@ -24,6 +24,31 @@ sap.ui.define([
 			});
 			return deferred.promise();
 		},
+			getDraftBillNumbers: function(BillEditModel, pspid, that) {
+
+			var service = BillEditModel.getProperty("/Inputs");
+			var deferred = $.Deferred();
+			var draftBillServiceUrl = that.getOwnerComponent().getModel('ZPRS_BILL_EDIT_SRV').sServiceUrl;
+			var oModelDraftBill = new sap.ui.model.odata.v2.ODataModel({
+				serviceUrl: draftBillServiceUrl
+			}, true);
+			var OpenDbForMatterSet = service.services.OpenDbForMatterSet;
+			var draftbillfilter = [new sap.ui.model.Filter({
+				path: "Pspid",
+				operator: sap.ui.model.FilterOperator.EQ,
+				value1: pspid
+			})];
+			oModelDraftBill.read(OpenDbForMatterSet, {
+				filters: draftbillfilter,
+				success: function(oData) {
+					deferred.resolve(oData);
+				},
+				error: function() {
+					deferred.reject();
+				}
+			});
+			return deferred.promise();
+		},
 		getPhaseCodes: function(BillEditModel, pspid, that) {
 
 			var service = BillEditModel.getProperty("/Inputs");
@@ -97,7 +122,7 @@ sap.ui.define([
 			});
 			return deferred.promise();
 		},
-		getActivitycodes: function(BillEditModel, thisRow, pspid, that) {
+		getActivitycodes: function(BillEditModel, pspid, that) {
 			var deferred = $.Deferred();
 			var service = BillEditModel.getProperty("/Inputs");
 			var taskcodeServiceUrl = that.getOwnerComponent().getModel('ZPRS_WIPCODES_SRV').sServiceUrl;
@@ -153,7 +178,7 @@ sap.ui.define([
 			return deferred.promise();
 
 		},
-		getFFtaskcodes: function(BillEditModel, thisRow, pspid, that) {
+		getFFtaskcodes: function(BillEditModel, pspid, that) {
 			var service = BillEditModel.getProperty("/Inputs");
 			var deferred = $.Deferred();
 			var taskcodeServiceUrl = that.getOwnerComponent().getModel('ZPRS_WIPCODES_SRV').sServiceUrl;

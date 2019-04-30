@@ -13,7 +13,7 @@
 			<Toolbar>
 				<ToolbarSpacer/>
 				<Title id="title1" text="Draft Bill - Line Items"/>
-				<Button icon="sap-icon://synchronize" tooltip="refresh" press="refreshTable"/>
+				<Button icon="sap-icon://synchronize" tooltip="refresh" press="Reload"/>
 				<!--<Button icon="sap-icon://action-settings" tooltip="Table Personalisation settings" press="ontablesettings"/>-->
 				<!--<Button  icon="sap-icon://download" tooltip="download" press="downloadfile"/>-->
 				<Button icon="sap-icon://excel-attachment" tooltip="downlosd" press="Export"/>
@@ -23,7 +23,7 @@
 		<smartTable:layoutData>
 			<m:FlexItemData growFactor="1" baseSize="0%"/>
 		</smartTable:layoutData>
-		<uitbl:Table id="lineItemEdits" rowSelectionChange="LineItemEditsSelection" rows="{InputsModel>/LineitemsCopy}">
+		<uitbl:Table id="lineItemEdits" rowSelectionChange="LineItemEditsSelection" rows="{InputsModel>/LineitemsCopy}" visibleRowCountMode = "Auto">
 			<uitbl:columns>
 				<uitbl:Column width="8rem" filterProperty="Action" sortProperty="Action" showSortMenuEntry="true" autoResizable="true">
 					<uitbl:customData>
@@ -33,7 +33,7 @@
 						<Text text="Info"/>
 					</uitbl:label>
 					<uitbl:template>
-						<core:Icon src="sap-icon://alert" class="size3" visible="false" id="alert" color="green"/>
+						<core:Icon src="sap-icon://alert" class="size3" visible="false" id="alert" color="red"/>
 					</uitbl:template>
 				</uitbl:Column>
 				<!--<uitbl:Column width="8rem" filterProperty="Zzfftskcd" sortProperty="Zzfftskcd" showSortMenuEntry="true" autoResizable="true">-->
@@ -209,7 +209,7 @@
 					<uitbl:label>
 						<Text text="Budat"/></uitbl:label>
 					<uitbl:template>
-						<smartField:SmartField editable="false" id="Budat" value="{Budat}"/></uitbl:template>
+						<Text width="100%" text="{ path: 'Budat', type: 'sap.ui.model.type.Date', formatOptions: { pattern: 'dd.MM.yyyy' } }"/></uitbl:template>
 				</uitbl:Column>
 				<uitbl:Column width="8rem" filterProperty="Sname" sortProperty="Sname" showSortMenuEntry="true" autoResizable="true">
 					<uitbl:customData>
@@ -309,7 +309,8 @@
 						<m:Text text="{i18n>Line Item Comments}"/>
 					</uitbl:label>
 					<uitbl:template>
-						<m:Text width="100%" text="{WfComments}"/>
+						<m:Button type="Emphasized" visible="false"
+							icon="sap-icon://comment" tooltip="chat" press="LinecommentsMethod"/>
 					</uitbl:template>
 				</uitbl:Column>
 			</uitbl:columns>

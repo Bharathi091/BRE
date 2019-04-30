@@ -15,6 +15,15 @@ sap.ui.define([
 					return "";
 				}
 				return parseFloat(sValue).toFixed(2);
+			},
+			isReviewByStatus :function(svalue){
+				var value = "";
+				if(svalue==="X"){
+					value="Reviewed";
+				} else {
+					value="";
+				}
+				return value;
 			}
 
 		};

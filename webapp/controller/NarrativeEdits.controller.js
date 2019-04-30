@@ -26,7 +26,7 @@ sap.ui.define([
 				$(document).ready(function() {
 					$(".fulcrum-editor-textarea").spellCheker({
 
-						lang_code: "en_US",
+						lang_code:that.getView().getModel("InputsModel").getProperty("/Inputs/dicDefLanguage"),
 						scope1: that,
 						table: Otable,
 						scope: that.getModel("InputsModel").getProperty("/Inputs"),
@@ -62,15 +62,36 @@ sap.ui.define([
 			this.getModel("InputsModel").setProperty("/Inputs/rowNarrativeCount", rowNarrativeCount);
 
 			if (rowCount.length > 0) {
-				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/ReplaceWords", true);
-				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/Reviewed", true);
-				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/UnReviewed", true);
+				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/NarrativeReplaceWords", true);
+				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/NarrativeReviewed", true);
+				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/NarrativeUnReviewed", true);
 				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/GlobalSpellCheck", true);
 			} else {
-				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/ReplaceWords", false);
-				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/Reviewed", false);
-				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/UnReviewed", false);
+				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/NarrativeReplaceWords", false);
+				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/NarrativeReviewed", false);
+				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/NarrativeUnReviewed", false);
 				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/GlobalSpellCheck", false);
+			}
+
+		},
+		dictionaryChange: function(oEvent) {
+			var key;
+			var that = this;
+			var selectedText = this.getView().byId("comboPosition").getSelectedItem().getText();
+			var otable = this.getView().byId("narrativeEditsTable");
+			var InputFields = this.getView().getModel("InputsModel");
+			var dictionary = InputFields.getProperty("/Inputs/Countries_collection");
+			for (var i = 0; i < dictionary.length; i++) {
+				if (dictionary[i].Text === selectedText) {
+					key = dictionary[i].Key;
+
+					var language = dictionary[i].lang;
+					InputFields.setProperty("/Inputs/changeLang", language);
+					that.getView().getModel("InputsModel").setProperty("/Inputs/dicDefLanguage", dictionary[i].Key);
+
+			
+					this.spellCheck();
+				}
 			}
 
 		},
@@ -137,7 +158,6 @@ sap.ui.define([
 			var part2 = str.substring(char_pos + 1, str.length);
 			return (part1 + part2);
 		},
-
 		removeSpaces: function(oEvt) {
 
 			var InputFields = this.getView().getModel("InputsModel");
@@ -178,7 +198,6 @@ sap.ui.define([
 			this.spellCheck();
 
 		},
-
 		onReplacewords: function(evt) {
 			debugger;
 			var selectedIndex = this.BillEditModel.getProperty("/Inputs/rowNarrativeCount");
@@ -411,8 +430,7 @@ sap.ui.define([
 
 		},
 		onNarrativeEditsSave: function(button) {
-			debugger;
-
+		
 			// this.showBusyIndicator();
 			var saveObjects = this.getModel("InputsModel").getProperty("/Inputs/saveObjects");
 			var transferitems = [];

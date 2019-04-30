@@ -35,34 +35,57 @@ sap.ui.define([
 			InputFields.setProperty("/Inputs/Toolbar/CreateFinalBill", true);
 			InputFields.setProperty("/Inputs/Toolbar/CancelDraftBill", true);
 			InputFields.setProperty("/Inputs/Toolbar/PrintFinalBill", true);
-			InputFields.setProperty("/Inputs/Toolbar/PrintDraftBill", true);
-			InputFields.setProperty("/Inputs/Toolbar/ChangeStatus", true);
-			InputFields.setProperty("/Inputs/Toolbar/Save", false);
-			InputFields.setProperty("/Inputs/Toolbar/ReplaceWords", false);
-			InputFields.setProperty("/Inputs/Toolbar/Reviewed", false);
-			InputFields.setProperty("/Inputs/Toolbar/UnReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/HomePrintDraftBill", true);
+			InputFields.setProperty("/Inputs/Toolbar/HomeChangeStatus", true);
+
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeReplaceWords", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeUnReviewed", false);
 			InputFields.setProperty("/Inputs/Toolbar/GlobalSpellCheck", false);
-			InputFields.setProperty("/Inputs/Toolbar/Reprice", false);
-			InputFields.setProperty("/Inputs/Toolbar/AddComments", false);
+
+			InputFields.setProperty("/Inputs/Toolbar/LineItemSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemReplaceWords", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemAddComments", false);
 			InputFields.setProperty("/Inputs/Toolbar/Postpone", false);
 			InputFields.setProperty("/Inputs/Toolbar/FullWriteDown", false);
 			InputFields.setProperty("/Inputs/Toolbar/LineItemReprice", false);
 			InputFields.setProperty("/Inputs/Toolbar/WriteUpDown", false);
 			InputFields.setProperty("/Inputs/Toolbar/BillExactAmount", false);
 			InputFields.setProperty("/Inputs/Toolbar/RateOverride", false);
-			InputFields.setProperty("/Inputs/Toolbar/UpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemUpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemUnReviewed", false);
+
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUnReviewed", false);
 			InputFields.setProperty("/Inputs/Toolbar/Transfer", false);
 			InputFields.setProperty("/Inputs/Toolbar/Consolidate", false);
 			InputFields.setProperty("/Inputs/Toolbar/SplitTransfer", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/TransferPrintDraftBill", false);
+			InputFields.setProperty("/Inputs/Toolbar/TransferChangeStatus", false);
+
 			InputFields.setProperty("/Inputs/Toolbar/Undo", false);
 		},
-
 		onDataReceived: function(oEvent) {
 			debugger;
 			var results = oEvent.getParameters().getParameter('data')['results'];
 			this.BillEditModel.setProperty("/Inputs/results", results);
 			this.BillEditModel.setProperty("/Inputs/HomeData", results);
+			var Otable = this.byId("homeTable");
+			for (var i = 0; i < results.length; i++) {
+				if (results[i].WfComments === "X") {
+					for (var i = 0; i < results.length; i++) {
+						Otable.getRows()[i].getCells()[4].setVisible(true);
+
+					}
+				}
+			}
+		
 		},
+
 		homeTableSelection: function(oEvent) {
 			debugger;
 			var rowCount = this.byId("homeTable").getSelectedIndices();
@@ -74,28 +97,32 @@ sap.ui.define([
 				this.getView().byId("LineItemTransfers").setVisible(true);
 				this.getView().byId("WrittenDown").setVisible(true);
 				this.getView().byId("BillSummary").setVisible(true);
+				
 				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/CreateFinalBill", true);
 				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/CancelDraftBill", true);
 				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/PrintFinalBill", true);
-				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/PrintDraftBill", true);
-				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/ChangeStatus", true);
+				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/HomePrintDraftBill", true);
+				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/HomeChangeStatus", true);
 
 				var viewTableData = this.BillEditModel.getProperty("/Inputs/results");
 				this.BillEditModel.setProperty("/Inputs/selectedRow", viewTableData[rowCount[0]]);
 				this.getLineItemsData();
 
 			} else if (rowCount.length > 1) {
+				
 				this.getView().byId("Narrative").setVisible(false);
 				this.getView().byId("HeaderEdits").setVisible(false);
 				this.getView().byId("LineItemEdits").setVisible(false);
 				this.getView().byId("LineItemTransfers").setVisible(false);
 				this.getView().byId("WrittenDown").setVisible(false);
 				this.getView().byId("BillSummary").setVisible(false);
+				
 				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/CreateFinalBill", true);
 				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/CancelDraftBill", true);
 				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/PrintFinalBill", true);
-				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/PrintDraftBill", false);
-				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/ChangeStatus", true);
+				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/HomePrintDraftBill", false);
+				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/HomeChangeStatus", true);
+				
 				debugger;
 				var SelRowsArr = [];
 				var viewTableData = this.BillEditModel.getProperty("/Inputs/results");
@@ -114,8 +141,8 @@ sap.ui.define([
 				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/CreateFinalBill", false);
 				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/CancelDraftBill", false);
 				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/PrintFinalBill", false);
-				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/PrintDraftBill", false);
-				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/ChangeStatus", false);
+				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/HomePrintDraftBill", false);
+				this.BillEditModel.setProperty("/Inputs/ToolbarEnable/HomeChangeStatus", false);
 			}
 		},
 		getLineItemsData: function() {
@@ -133,6 +160,8 @@ sap.ui.define([
 				.fail(function() {});
 
 		},
+		
+		
 		NarrativeFunction: function(oControlEvent) {
 			this.bus = sap.ui.getCore().getEventBus();
 			this.bus.publish("homeChannelNarrative", "toSummaryEditNarrative", {
@@ -141,7 +170,6 @@ sap.ui.define([
 			});
 		},
 		HeaderFunction: function(oControlEvent) {
-			debugger;
 			this.bus = sap.ui.getCore().getEventBus();
 			this.bus.publish("homeChannelHeaderEdits", "toSummaryEditHeader", {
 				parHeader: "headerEdit",
@@ -149,8 +177,26 @@ sap.ui.define([
 			});
 
 		},
+		LineItemEditsFunction: function(oControlEvent) {
+			var that = this;
+			this.bus = sap.ui.getCore().getEventBus();
+			this.bus.publish("homeChannelLineItemEdits", "toSummaryEditLineItem", {
+		     	data: that.BillEditModel.getProperty("/Inputs/selectedRow"),
+				button: oControlEvent.getSource().getText()
+			});
+
+		},
+		LineItemTransfersFunction: function(oControlEvent) {
+			var that = this;
+			this.bus = sap.ui.getCore().getEventBus();
+			this.bus.publish("homeChannelLineItemTransfer", "toSummaryLineItemTransfer", {
+			    data: that.BillEditModel.getProperty("/Inputs/selectedRow"),
+				button: oControlEvent.getSource().getText()
+			});
+
+		},
+		
 		onHomePress: function(oEvent) {
-			debugger;
 			var InputFields = this.getModel("InputsModel");
 			this.getView().byId("Home").setVisible(true);
 			this.getView().byId("NarrativeEditsVBox").setVisible(false);
@@ -163,25 +209,44 @@ sap.ui.define([
 			InputFields.setProperty("/Inputs/Toolbar/CreateFinalBill", true);
 			InputFields.setProperty("/Inputs/Toolbar/CancelDraftBill", true);
 			InputFields.setProperty("/Inputs/Toolbar/PrintFinalBill", true);
-			InputFields.setProperty("/Inputs/Toolbar/PrintDraftBill", true);
-			InputFields.setProperty("/Inputs/Toolbar/ChangeStatus", true);
-			InputFields.setProperty("/Inputs/Toolbar/Save", false);
-			InputFields.setProperty("/Inputs/Toolbar/ReplaceWords", false);
-			InputFields.setProperty("/Inputs/Toolbar/Reviewed", false);
-			InputFields.setProperty("/Inputs/Toolbar/UnReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/HomePrintDraftBill", true);
+			InputFields.setProperty("/Inputs/Toolbar/HomeChangeStatus", true);
+
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeReplaceWords", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeUnReviewed", false);
 			InputFields.setProperty("/Inputs/Toolbar/GlobalSpellCheck", false);
+
 			InputFields.setProperty("/Inputs/Toolbar/Reprice", false);
-			InputFields.setProperty("/Inputs/Toolbar/AddComments", false);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderAddComments", false);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderChangeStatus", false);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderPrintDraftBill", false);
+
+			InputFields.setProperty("/Inputs/Toolbar/LineItemSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemReplaceWords", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemAddComments", false);
 			InputFields.setProperty("/Inputs/Toolbar/Postpone", false);
 			InputFields.setProperty("/Inputs/Toolbar/FullWriteDown", false);
 			InputFields.setProperty("/Inputs/Toolbar/LineItemReprice", false);
 			InputFields.setProperty("/Inputs/Toolbar/WriteUpDown", false);
 			InputFields.setProperty("/Inputs/Toolbar/BillExactAmount", false);
 			InputFields.setProperty("/Inputs/Toolbar/RateOverride", false);
-			InputFields.setProperty("/Inputs/Toolbar/UpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemUpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemUnReviewed", false);
+
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUnReviewed", false);
 			InputFields.setProperty("/Inputs/Toolbar/Transfer", false);
 			InputFields.setProperty("/Inputs/Toolbar/Consolidate", false);
 			InputFields.setProperty("/Inputs/Toolbar/SplitTransfer", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/TransferPrintDraftBill", false);
+			InputFields.setProperty("/Inputs/Toolbar/TransferChangeStatus", false);
+
 			InputFields.setProperty("/Inputs/Toolbar/Undo", false);
 			this.bus = sap.ui.getCore().getEventBus();
 			this.bus.publish("homeChannel", "toSummaryEdit", {
@@ -189,7 +254,7 @@ sap.ui.define([
 			});
 		},
 		onNarrativePress: function(oEvent) {
-			debugger;
+		
 			var InputFields = this.getModel("InputsModel");
 
 			this.getView().byId("Home").setVisible(false);
@@ -200,65 +265,103 @@ sap.ui.define([
 			this.getView().byId("WrittenDownVbox").setVisible(false);
 			this.getView().byId("BillSummaryVbox").setVisible(false);
 			if (this.BillEditModel.getProperty("/Inputs/selectedRow").Status === "Approved") {
+
 				InputFields.setProperty("/Inputs/Toolbar/CreateFinalBill", false);
 				InputFields.setProperty("/Inputs/Toolbar/CancelDraftBill", false);
 				InputFields.setProperty("/Inputs/Toolbar/PrintFinalBill", false);
-				InputFields.setProperty("/Inputs/Toolbar/PrintDraftBill", false);
-				InputFields.setProperty("/Inputs/Toolbar/ChangeStatus", false);
-				InputFields.setProperty("/Inputs/Toolbar/Save", false);
-				InputFields.setProperty("/Inputs/Toolbar/ReplaceWords", false);
-				InputFields.setProperty("/Inputs/Toolbar/Reviewed", false);
-				InputFields.setProperty("/Inputs/Toolbar/UnReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/HomePrintDraftBill", false);
+				InputFields.setProperty("/Inputs/Toolbar/HomeChangeStatus", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeReplaceWords", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeUnReviewed", false);
 				InputFields.setProperty("/Inputs/Toolbar/GlobalSpellCheck", true);
+
 				InputFields.setProperty("/Inputs/Toolbar/Reprice", false);
-				InputFields.setProperty("/Inputs/Toolbar/AddComments", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderAddComments", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderChangeStatus", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderPrintDraftBill", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/LineItemSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemReplaceWords", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemAddComments", false);
 				InputFields.setProperty("/Inputs/Toolbar/Postpone", false);
 				InputFields.setProperty("/Inputs/Toolbar/FullWriteDown", false);
 				InputFields.setProperty("/Inputs/Toolbar/LineItemReprice", false);
 				InputFields.setProperty("/Inputs/Toolbar/WriteUpDown", false);
 				InputFields.setProperty("/Inputs/Toolbar/BillExactAmount", false);
 				InputFields.setProperty("/Inputs/Toolbar/RateOverride", false);
-				InputFields.setProperty("/Inputs/Toolbar/UpdateCodes", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemUpdateCodes", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemUnReviewed", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUnReviewed", false);
 				InputFields.setProperty("/Inputs/Toolbar/Transfer", false);
 				InputFields.setProperty("/Inputs/Toolbar/Consolidate", false);
 				InputFields.setProperty("/Inputs/Toolbar/SplitTransfer", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUpdateCodes", false);
+				InputFields.setProperty("/Inputs/Toolbar/TransferPrintDraftBill", false);
+				InputFields.setProperty("/Inputs/Toolbar/TransferChangeStatus", false);
+
 				InputFields.setProperty("/Inputs/Toolbar/Undo", false);
 
-				InputFields.setProperty("/Inputs/ToolbarEnable/Save", false);
-				InputFields.setProperty("/Inputs/ToolbarEnable/ReplaceWords", false);
-				InputFields.setProperty("/Inputs/ToolbarEnable/Reviewed", false);
-				InputFields.setProperty("/Inputs/ToolbarEnable/UnReviewed", false);
+				InputFields.setProperty("/Inputs/ToolbarEnable/NarrativeSave", false);
+				InputFields.setProperty("/Inputs/ToolbarEnable/NarrativeReplaceWords", false);
+				InputFields.setProperty("/Inputs/ToolbarEnable/NarrativeReviewed", false);
+				InputFields.setProperty("/Inputs/ToolbarEnable/NarrativeUnReviewed", false);
 				InputFields.setProperty("/Inputs/ToolbarEnable/GlobalSpellCheck", true);
-			}
-			else{
+			} else {
 				InputFields.setProperty("/Inputs/Toolbar/CreateFinalBill", false);
 				InputFields.setProperty("/Inputs/Toolbar/CancelDraftBill", false);
 				InputFields.setProperty("/Inputs/Toolbar/PrintFinalBill", false);
-				InputFields.setProperty("/Inputs/Toolbar/PrintDraftBill", false);
-				InputFields.setProperty("/Inputs/Toolbar/ChangeStatus", false);
-				InputFields.setProperty("/Inputs/Toolbar/Save", true);
-				InputFields.setProperty("/Inputs/Toolbar/ReplaceWords", true);
-				InputFields.setProperty("/Inputs/Toolbar/Reviewed", true);
-				InputFields.setProperty("/Inputs/Toolbar/UnReviewed", true);
+				InputFields.setProperty("/Inputs/Toolbar/HomePrintDraftBill", false);
+				InputFields.setProperty("/Inputs/Toolbar/HomeChangeStatus", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeSave", true);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeReplaceWords", true);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeReviewed", true);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeUnReviewed", true);
 				InputFields.setProperty("/Inputs/Toolbar/GlobalSpellCheck", true);
+
 				InputFields.setProperty("/Inputs/Toolbar/Reprice", false);
-				InputFields.setProperty("/Inputs/Toolbar/AddComments", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderAddComments", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderChangeStatus", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderPrintDraftBill", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/LineItemSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemReplaceWords", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemAddComments", false);
 				InputFields.setProperty("/Inputs/Toolbar/Postpone", false);
 				InputFields.setProperty("/Inputs/Toolbar/FullWriteDown", false);
 				InputFields.setProperty("/Inputs/Toolbar/LineItemReprice", false);
 				InputFields.setProperty("/Inputs/Toolbar/WriteUpDown", false);
 				InputFields.setProperty("/Inputs/Toolbar/BillExactAmount", false);
 				InputFields.setProperty("/Inputs/Toolbar/RateOverride", false);
-				InputFields.setProperty("/Inputs/Toolbar/UpdateCodes", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemUpdateCodes", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemUnReviewed", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUnReviewed", false);
 				InputFields.setProperty("/Inputs/Toolbar/Transfer", false);
 				InputFields.setProperty("/Inputs/Toolbar/Consolidate", false);
 				InputFields.setProperty("/Inputs/Toolbar/SplitTransfer", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUpdateCodes", false);
+				InputFields.setProperty("/Inputs/Toolbar/TransferPrintDraftBill", false);
+				InputFields.setProperty("/Inputs/Toolbar/TransferChangeStatus", false);
+
 				InputFields.setProperty("/Inputs/Toolbar/Undo", false);
 
-				InputFields.setProperty("/Inputs/ToolbarEnable/Save", true);
-				InputFields.setProperty("/Inputs/ToolbarEnable/ReplaceWords", false);
-				InputFields.setProperty("/Inputs/ToolbarEnable/Reviewed", false);
-				InputFields.setProperty("/Inputs/ToolbarEnable/UnReviewed", false);
+				InputFields.setProperty("/Inputs/ToolbarEnable/NarrativeSave", true);
+				InputFields.setProperty("/Inputs/ToolbarEnable/NarrativeReplaceWords", false);
+				InputFields.setProperty("/Inputs/ToolbarEnable/NarrativeReviewed", false);
+				InputFields.setProperty("/Inputs/ToolbarEnable/NarrativeUnReviewed", false);
 				InputFields.setProperty("/Inputs/ToolbarEnable/GlobalSpellCheck", true);
 			}
 			this.bus = sap.ui.getCore().getEventBus();
@@ -281,33 +384,50 @@ sap.ui.define([
 			InputFields.setProperty("/Inputs/Toolbar/CreateFinalBill", false);
 			InputFields.setProperty("/Inputs/Toolbar/CancelDraftBill", false);
 			InputFields.setProperty("/Inputs/Toolbar/PrintFinalBill", false);
-			InputFields.setProperty("/Inputs/Toolbar/PrintDraftBill", true);
-			InputFields.setProperty("/Inputs/Toolbar/ChangeStatus", true);
-			InputFields.setProperty("/Inputs/Toolbar/Save", true);
-			InputFields.setProperty("/Inputs/Toolbar/ReplaceWords", false);
-			InputFields.setProperty("/Inputs/Toolbar/Reviewed", false);
-			InputFields.setProperty("/Inputs/Toolbar/UnReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/HomePrintDraftBill", false);
+			InputFields.setProperty("/Inputs/Toolbar/HomeChangeStatus", false);
+
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeReplaceWords", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeUnReviewed", false);
 			InputFields.setProperty("/Inputs/Toolbar/GlobalSpellCheck", false);
+
 			InputFields.setProperty("/Inputs/Toolbar/Reprice", true);
-			InputFields.setProperty("/Inputs/Toolbar/AddComments", true);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderAddComments", true);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderChangeStatus", true);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderSave", true);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderPrintDraftBill", true);
+
+			InputFields.setProperty("/Inputs/Toolbar/LineItemSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemReplaceWords", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemAddComments", false);
 			InputFields.setProperty("/Inputs/Toolbar/Postpone", false);
 			InputFields.setProperty("/Inputs/Toolbar/FullWriteDown", false);
 			InputFields.setProperty("/Inputs/Toolbar/LineItemReprice", false);
 			InputFields.setProperty("/Inputs/Toolbar/WriteUpDown", false);
 			InputFields.setProperty("/Inputs/Toolbar/BillExactAmount", false);
 			InputFields.setProperty("/Inputs/Toolbar/RateOverride", false);
-			InputFields.setProperty("/Inputs/Toolbar/UpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemUpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemUnReviewed", false);
+
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUnReviewed", false);
 			InputFields.setProperty("/Inputs/Toolbar/Transfer", false);
 			InputFields.setProperty("/Inputs/Toolbar/Consolidate", false);
 			InputFields.setProperty("/Inputs/Toolbar/SplitTransfer", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/TransferPrintDraftBill", false);
+			InputFields.setProperty("/Inputs/Toolbar/TransferChangeStatus", false);
+
 			InputFields.setProperty("/Inputs/Toolbar/Undo", false);
 
-			InputFields.setProperty("/Inputs/ToolbarEnable/Save", true);
 			InputFields.setProperty("/Inputs/ToolbarEnable/Reprice", true);
-			InputFields.setProperty("/Inputs/ToolbarEnable/AddComments", true);
-			InputFields.setProperty("/Inputs/ToolbarEnable/BillExactAmount", true);
-			InputFields.setProperty("/Inputs/ToolbarEnable/ChangeStatus", true);
-			InputFields.setProperty("/Inputs/ToolbarEnable/PrintDraftBill", true);
+			InputFields.setProperty("/Inputs/ToolbarEnable/HeaderAddComments", true);
+			InputFields.setProperty("/Inputs/ToolbarEnable/HeaderChangeStatus", true);
+			InputFields.setProperty("/Inputs/ToolbarEnable/HeaderPrintDraftBill", true);
 
 			var that = this;
 			this.bus = sap.ui.getCore().getEventBus();
@@ -325,57 +445,98 @@ sap.ui.define([
 			this.getView().byId("WrittenDownVbox").setVisible(false);
 			this.getView().byId("BillSummaryVbox").setVisible(false);
 			if (this.BillEditModel.getProperty("/Inputs/selectedRow").Status === "Approved") {
+
 				InputFields.setProperty("/Inputs/Toolbar/CreateFinalBill", false);
 				InputFields.setProperty("/Inputs/Toolbar/CancelDraftBill", false);
 				InputFields.setProperty("/Inputs/Toolbar/PrintFinalBill", false);
-				InputFields.setProperty("/Inputs/Toolbar/PrintDraftBill", false);
-				InputFields.setProperty("/Inputs/Toolbar/ChangeStatus", false);
-				InputFields.setProperty("/Inputs/Toolbar/Save", false);
-				InputFields.setProperty("/Inputs/Toolbar/ReplaceWords", false);
-				InputFields.setProperty("/Inputs/Toolbar/Reviewed", false);
-				InputFields.setProperty("/Inputs/Toolbar/UnReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/HomePrintDraftBill", false);
+				InputFields.setProperty("/Inputs/Toolbar/HomeChangeStatus", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeReplaceWords", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeUnReviewed", false);
 				InputFields.setProperty("/Inputs/Toolbar/GlobalSpellCheck", false);
+
 				InputFields.setProperty("/Inputs/Toolbar/Reprice", false);
-				InputFields.setProperty("/Inputs/Toolbar/AddComments", true);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderAddComments", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderChangeStatus", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderPrintDraftBill", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/LineItemSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemReplaceWords", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemAddComments", true);
 				InputFields.setProperty("/Inputs/Toolbar/Postpone", false);
 				InputFields.setProperty("/Inputs/Toolbar/FullWriteDown", false);
 				InputFields.setProperty("/Inputs/Toolbar/LineItemReprice", false);
 				InputFields.setProperty("/Inputs/Toolbar/WriteUpDown", false);
 				InputFields.setProperty("/Inputs/Toolbar/BillExactAmount", false);
 				InputFields.setProperty("/Inputs/Toolbar/RateOverride", false);
-				InputFields.setProperty("/Inputs/Toolbar/UpdateCodes", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemUpdateCodes", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemUnReviewed", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUnReviewed", false);
 				InputFields.setProperty("/Inputs/Toolbar/Transfer", false);
 				InputFields.setProperty("/Inputs/Toolbar/Consolidate", false);
 				InputFields.setProperty("/Inputs/Toolbar/SplitTransfer", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUpdateCodes", false);
+				InputFields.setProperty("/Inputs/Toolbar/TransferPrintDraftBill", false);
+				InputFields.setProperty("/Inputs/Toolbar/TransferChangeStatus", false);
+
 				InputFields.setProperty("/Inputs/Toolbar/Undo", false);
-				InputFields.setProperty("/Inputs/ToolbarEnable/AddComments", false);
-				InputFields.setProperty("/Inputs/ToolbarEnable/Save", false);
+
+				InputFields.setProperty("/Inputs/ToolbarEnable/LineItemAddComments", false);
+				InputFields.setProperty("/Inputs/ToolbarEnable/LineItemSave", false);
 			} else {
 				InputFields.setProperty("/Inputs/Toolbar/CreateFinalBill", false);
 				InputFields.setProperty("/Inputs/Toolbar/CancelDraftBill", false);
 				InputFields.setProperty("/Inputs/Toolbar/PrintFinalBill", false);
-				InputFields.setProperty("/Inputs/Toolbar/PrintDraftBill", false);
-				InputFields.setProperty("/Inputs/Toolbar/ChangeStatus", false);
-				InputFields.setProperty("/Inputs/Toolbar/Save", true);
-				InputFields.setProperty("/Inputs/Toolbar/ReplaceWords", true);
-				InputFields.setProperty("/Inputs/Toolbar/Reviewed", true);
-				InputFields.setProperty("/Inputs/Toolbar/UnReviewed", true);
+				InputFields.setProperty("/Inputs/Toolbar/HomePrintDraftBill", false);
+				InputFields.setProperty("/Inputs/Toolbar/HomeChangeStatus", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeReplaceWords", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeUnReviewed", false);
 				InputFields.setProperty("/Inputs/Toolbar/GlobalSpellCheck", false);
+
 				InputFields.setProperty("/Inputs/Toolbar/Reprice", false);
-				InputFields.setProperty("/Inputs/Toolbar/AddComments", true);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderAddComments", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderChangeStatus", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderPrintDraftBill", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/LineItemSave", true);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemReplaceWords", true);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemAddComments", true);
 				InputFields.setProperty("/Inputs/Toolbar/Postpone", true);
 				InputFields.setProperty("/Inputs/Toolbar/FullWriteDown", true);
 				InputFields.setProperty("/Inputs/Toolbar/LineItemReprice", true);
 				InputFields.setProperty("/Inputs/Toolbar/WriteUpDown", true);
 				InputFields.setProperty("/Inputs/Toolbar/BillExactAmount", true);
 				InputFields.setProperty("/Inputs/Toolbar/RateOverride", true);
-				InputFields.setProperty("/Inputs/Toolbar/UpdateCodes", true);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemUpdateCodes", true);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemReviewed", true);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemUnReviewed", true);
+
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUnReviewed", false);
 				InputFields.setProperty("/Inputs/Toolbar/Transfer", false);
 				InputFields.setProperty("/Inputs/Toolbar/Consolidate", false);
 				InputFields.setProperty("/Inputs/Toolbar/SplitTransfer", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUpdateCodes", false);
+				InputFields.setProperty("/Inputs/Toolbar/TransferPrintDraftBill", false);
+				InputFields.setProperty("/Inputs/Toolbar/TransferChangeStatus", false);
+
 				InputFields.setProperty("/Inputs/Toolbar/Undo", false);
-				InputFields.setProperty("/Inputs/ToolbarEnable/AddComments", false);
-				InputFields.setProperty("/Inputs/ToolbarEnable/Save", false);
+
+				InputFields.setProperty("/Inputs/ToolbarEnable/LineItemAddComments", false);
+				InputFields.setProperty("/Inputs/ToolbarEnable/LineItemSave", false);
 			}
 			this.bus = sap.ui.getCore().getEventBus();
 			this.bus.publish("homeChannelLineItemEdits", "toSummaryEditLineItem", {
@@ -398,49 +559,88 @@ sap.ui.define([
 				InputFields.setProperty("/Inputs/Toolbar/CreateFinalBill", false);
 				InputFields.setProperty("/Inputs/Toolbar/CancelDraftBill", false);
 				InputFields.setProperty("/Inputs/Toolbar/PrintFinalBill", false);
-				InputFields.setProperty("/Inputs/Toolbar/PrintDraftBill", false);
-				InputFields.setProperty("/Inputs/Toolbar/ChangeStatus", false);
-				InputFields.setProperty("/Inputs/Toolbar/Save", true);
-				InputFields.setProperty("/Inputs/Toolbar/ReplaceWords", false);
-				InputFields.setProperty("/Inputs/Toolbar/Reviewed", false);
-				InputFields.setProperty("/Inputs/Toolbar/UnReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/HomePrintDraftBill", false);
+				InputFields.setProperty("/Inputs/Toolbar/HomeChangeStatus", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeReplaceWords", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeUnReviewed", false);
 				InputFields.setProperty("/Inputs/Toolbar/GlobalSpellCheck", false);
+
 				InputFields.setProperty("/Inputs/Toolbar/Reprice", false);
-				InputFields.setProperty("/Inputs/Toolbar/AddComments", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderAddComments", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderChangeStatus", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderPrintDraftBill", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/LineItemSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemReplaceWords", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemAddComments", false);
 				InputFields.setProperty("/Inputs/Toolbar/Postpone", false);
 				InputFields.setProperty("/Inputs/Toolbar/FullWriteDown", false);
 				InputFields.setProperty("/Inputs/Toolbar/LineItemReprice", false);
 				InputFields.setProperty("/Inputs/Toolbar/WriteUpDown", false);
 				InputFields.setProperty("/Inputs/Toolbar/BillExactAmount", false);
 				InputFields.setProperty("/Inputs/Toolbar/RateOverride", false);
-				InputFields.setProperty("/Inputs/Toolbar/UpdateCodes", false);
-				InputFields.setProperty("/Inputs/Toolbar/Transfer", false);
-				InputFields.setProperty("/Inputs/Toolbar/Consolidate", false);
-				InputFields.setProperty("/Inputs/Toolbar/SplitTransfer", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemUpdateCodes", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemUnReviewed", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferSave", true);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferReviewed", true);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUnReviewed", true);
+				InputFields.setProperty("/Inputs/Toolbar/Transfer", true);
+				InputFields.setProperty("/Inputs/Toolbar/Consolidate", true);
+				InputFields.setProperty("/Inputs/Toolbar/SplitTransfer", true);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUpdateCodes", true);
+				InputFields.setProperty("/Inputs/Toolbar/TransferPrintDraftBill", true);
+				InputFields.setProperty("/Inputs/Toolbar/TransferChangeStatus", true);
+
 				InputFields.setProperty("/Inputs/Toolbar/Undo", false);
+
 			} else {
 				InputFields.setProperty("/Inputs/Toolbar/CreateFinalBill", false);
 				InputFields.setProperty("/Inputs/Toolbar/CancelDraftBill", false);
 				InputFields.setProperty("/Inputs/Toolbar/PrintFinalBill", false);
-				InputFields.setProperty("/Inputs/Toolbar/PrintDraftBill", false);
-				InputFields.setProperty("/Inputs/Toolbar/ChangeStatus", false);
-				InputFields.setProperty("/Inputs/Toolbar/Save", true);
-				InputFields.setProperty("/Inputs/Toolbar/ReplaceWords", false);
-				InputFields.setProperty("/Inputs/Toolbar/Reviewed", true);
-				InputFields.setProperty("/Inputs/Toolbar/UnReviewed", true);
+				InputFields.setProperty("/Inputs/Toolbar/HomePrintDraftBill", false);
+				InputFields.setProperty("/Inputs/Toolbar/HomeChangeStatus", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeReplaceWords", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/NarrativeUnReviewed", false);
 				InputFields.setProperty("/Inputs/Toolbar/GlobalSpellCheck", false);
+
 				InputFields.setProperty("/Inputs/Toolbar/Reprice", false);
-				InputFields.setProperty("/Inputs/Toolbar/AddComments", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderAddComments", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderChangeStatus", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/HeaderPrintDraftBill", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/LineItemSave", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemReplaceWords", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemAddComments", false);
 				InputFields.setProperty("/Inputs/Toolbar/Postpone", false);
 				InputFields.setProperty("/Inputs/Toolbar/FullWriteDown", false);
 				InputFields.setProperty("/Inputs/Toolbar/LineItemReprice", false);
 				InputFields.setProperty("/Inputs/Toolbar/WriteUpDown", false);
 				InputFields.setProperty("/Inputs/Toolbar/BillExactAmount", false);
 				InputFields.setProperty("/Inputs/Toolbar/RateOverride", false);
-				InputFields.setProperty("/Inputs/Toolbar/UpdateCodes", true);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemUpdateCodes", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemReviewed", false);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemUnReviewed", false);
+
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferSave", true);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferReviewed", true);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUnReviewed", true);
 				InputFields.setProperty("/Inputs/Toolbar/Transfer", true);
 				InputFields.setProperty("/Inputs/Toolbar/Consolidate", true);
 				InputFields.setProperty("/Inputs/Toolbar/SplitTransfer", true);
+				InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUpdateCodes", true);
+				InputFields.setProperty("/Inputs/Toolbar/TransferPrintDraftBill", true);
+				InputFields.setProperty("/Inputs/Toolbar/TransferChangeStatus", true);
+
 				InputFields.setProperty("/Inputs/Toolbar/Undo", false);
 			}
 			this.bus = sap.ui.getCore().getEventBus();
@@ -463,25 +663,44 @@ sap.ui.define([
 			InputFields.setProperty("/Inputs/Toolbar/CreateFinalBill", false);
 			InputFields.setProperty("/Inputs/Toolbar/CancelDraftBill", false);
 			InputFields.setProperty("/Inputs/Toolbar/PrintFinalBill", false);
-			InputFields.setProperty("/Inputs/Toolbar/PrintDraftBill", false);
-			InputFields.setProperty("/Inputs/Toolbar/ChangeStatus", false);
-			InputFields.setProperty("/Inputs/Toolbar/Save", false);
-			InputFields.setProperty("/Inputs/Toolbar/ReplaceWords", false);
-			InputFields.setProperty("/Inputs/Toolbar/Reviewed", false);
-			InputFields.setProperty("/Inputs/Toolbar/UnReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/HomePrintDraftBill", false);
+			InputFields.setProperty("/Inputs/Toolbar/HomeChangeStatus", false);
+
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeReplaceWords", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeUnReviewed", false);
 			InputFields.setProperty("/Inputs/Toolbar/GlobalSpellCheck", false);
+
 			InputFields.setProperty("/Inputs/Toolbar/Reprice", false);
-			InputFields.setProperty("/Inputs/Toolbar/AddComments", false);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderAddComments", false);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderChangeStatus", false);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderPrintDraftBill", false);
+
+			InputFields.setProperty("/Inputs/Toolbar/LineItemSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemReplaceWords", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemAddComments", false);
 			InputFields.setProperty("/Inputs/Toolbar/Postpone", false);
 			InputFields.setProperty("/Inputs/Toolbar/FullWriteDown", false);
 			InputFields.setProperty("/Inputs/Toolbar/LineItemReprice", false);
 			InputFields.setProperty("/Inputs/Toolbar/WriteUpDown", false);
 			InputFields.setProperty("/Inputs/Toolbar/BillExactAmount", false);
 			InputFields.setProperty("/Inputs/Toolbar/RateOverride", false);
-			InputFields.setProperty("/Inputs/Toolbar/UpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemUpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemUnReviewed", false);
+
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUnReviewed", false);
 			InputFields.setProperty("/Inputs/Toolbar/Transfer", false);
 			InputFields.setProperty("/Inputs/Toolbar/Consolidate", false);
 			InputFields.setProperty("/Inputs/Toolbar/SplitTransfer", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/TransferPrintDraftBill", false);
+			InputFields.setProperty("/Inputs/Toolbar/TransferChangeStatus", false);
+
 			InputFields.setProperty("/Inputs/Toolbar/Undo", true);
 
 			this.bus.publish("homeChannelWrittenDown", "toSummaryWrittenDown", {
@@ -502,25 +721,44 @@ sap.ui.define([
 			InputFields.setProperty("/Inputs/Toolbar/CreateFinalBill", false);
 			InputFields.setProperty("/Inputs/Toolbar/CancelDraftBill", false);
 			InputFields.setProperty("/Inputs/Toolbar/PrintFinalBill", false);
-			InputFields.setProperty("/Inputs/Toolbar/PrintDraftBill", false);
-			InputFields.setProperty("/Inputs/Toolbar/ChangeStatus", false);
-			InputFields.setProperty("/Inputs/Toolbar/Save", false);
-			InputFields.setProperty("/Inputs/Toolbar/ReplaceWords", false);
-			InputFields.setProperty("/Inputs/Toolbar/Reviewed", false);
-			InputFields.setProperty("/Inputs/Toolbar/UnReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/HomePrintDraftBill", false);
+			InputFields.setProperty("/Inputs/Toolbar/HomeChangeStatus", false);
+
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeReplaceWords", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/NarrativeUnReviewed", false);
 			InputFields.setProperty("/Inputs/Toolbar/GlobalSpellCheck", false);
+
 			InputFields.setProperty("/Inputs/Toolbar/Reprice", false);
-			InputFields.setProperty("/Inputs/Toolbar/AddComments", false);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderAddComments", false);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderChangeStatus", false);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/HeaderPrintDraftBill", false);
+
+			InputFields.setProperty("/Inputs/Toolbar/LineItemSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemReplaceWords", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemAddComments", false);
 			InputFields.setProperty("/Inputs/Toolbar/Postpone", false);
 			InputFields.setProperty("/Inputs/Toolbar/FullWriteDown", false);
 			InputFields.setProperty("/Inputs/Toolbar/LineItemReprice", false);
 			InputFields.setProperty("/Inputs/Toolbar/WriteUpDown", false);
 			InputFields.setProperty("/Inputs/Toolbar/BillExactAmount", false);
 			InputFields.setProperty("/Inputs/Toolbar/RateOverride", false);
-			InputFields.setProperty("/Inputs/Toolbar/UpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemUpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemUnReviewed", false);
+
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferSave", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferReviewed", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUnReviewed", false);
 			InputFields.setProperty("/Inputs/Toolbar/Transfer", false);
 			InputFields.setProperty("/Inputs/Toolbar/Consolidate", false);
 			InputFields.setProperty("/Inputs/Toolbar/SplitTransfer", false);
+			InputFields.setProperty("/Inputs/Toolbar/LineItemTransferUpdateCodes", false);
+			InputFields.setProperty("/Inputs/Toolbar/TransferPrintDraftBill", false);
+			InputFields.setProperty("/Inputs/Toolbar/TransferChangeStatus", false);
+
 			InputFields.setProperty("/Inputs/Toolbar/Undo", false);
 
 			this.bus = sap.ui.getCore().getEventBus();
@@ -529,6 +767,8 @@ sap.ui.define([
 			});
 
 		},
+		
+		
 		onGlobalSearch: function(oEvent) {
 
 			debugger;
@@ -798,15 +1038,14 @@ sap.ui.define([
 			window.open(url, "_blank");
 
 		},
-		LineItemTransferfunction:function(oControlEvent){
+		LineItemTransferfunction: function(oControlEvent) {
 			this.bus = sap.ui.getCore().getEventBus();
 			this.bus.publish("homeChannelLineItemTransfer", "toSummaryLineItemTransfer", {
 				parLineItemTransfer: "lineItemTransfer",
-					button: oControlEvent.getSource().getText()
+				button: oControlEvent.getSource().getText()
 			});
 		},
-		
-		
+
 		//create final bill
 		CreateFinalBillFuntion: function() {
 			var oDialog = this._getfinalbillssuggestDialog();
@@ -888,8 +1127,7 @@ sap.ui.define([
 			});
 			this._finalBillDialog.close();
 		},
-		
-		
+
 		//change status 
 		_getStatusDialog: function() {
 			if (!this._statusDialog) {
@@ -897,14 +1135,13 @@ sap.ui.define([
 			}
 			return this._statusDialog;
 		},
-			ChangeStatusFunction: function() {
+		ChangeStatusFunction: function() {
 			var oDialog = this._getStatusDialog();
 			this.getView().addDependent(oDialog);
 			oDialog.open();
 			var that = this;
 			var selectedRows = this.BillEditModel.getProperty("/Inputs/selectedRow");
-			
-			
+
 			this.showBusyIndicator();
 			$.when(MatterServices.getInstance().getBillSummarySetStatus(this.BillEditModel, selectedRows, this))
 				.done(function(statusList) {
@@ -922,12 +1159,12 @@ sap.ui.define([
 			var table = this.getView().byId("homeTable");
 			var selectedRows = [];
 			var selectedIndices = table.getSelectedIndices();
-			if(selectedIndices.length === 1){
+			if (selectedIndices.length === 1) {
 				selectedRows.push(this.BillEditModel.getProperty("/Inputs/selectedRow"));
-			}else if(selectedIndices.length >= 1){
+			} else if (selectedIndices.length >= 1) {
 				selectedRows.push(this.BillEditModel.getProperty("/Inputs/selectedRow"));
 			}
-			
+
 			var oFModel = this.getOwnerComponent().getModel(),
 				tData = $.extend(true, [], selectedRows),
 				urlParams,
@@ -960,8 +1197,8 @@ sap.ui.define([
 						table.getRows()[selectedIndices[i]].getCells()[1].setVisible(false);
 						table.getRows()[selectedIndices[i]].getCells()[0].setTooltip(msgTxt);
 					}
-                      that.BillEditModel.setProperty("/Inputs/results", oData.results);
-					
+					that.BillEditModel.setProperty("/Inputs/results", oData.results);
+
 				},
 				error: function(oData) {
 					MessageBox.show(JSON.parse(oData.responseText).error.message.value);
@@ -971,8 +1208,48 @@ sap.ui.define([
 		},
 		statusDialogClosedWithOk: function() {
 			this._statusDialog.close();
-		}
-		
+		},
+		LinecommentsMethod: function(oEvent) {
+			alert("comment open");
+			debugger;
+			var billEditSearchData = oEvent.getSource().getBindingContext().getObject();
+			var that = this;
+
+			this.BillEditModel.setProperty("/Inputs/comments", billEditSearchData.WfComments);
+
+			LineItemsServices.getInstance().getWFComments(that.BillEditModel, billEditSearchData, that)
+				.done(function(oData) {
+
+					sap.ui.core.BusyIndicator.hide(0);
+
+					var oDialog = that._getCommentsDialog();
+					that.getView().addDependent(oDialog);
+					oDialog.open();
+					that.BillEditModel.setProperty("/Inputs/WfComments", oData.results);
+
+				})
+				.fail(function() {
+					sap.ui.core.BusyIndicator.hide(0);
+
+				});
+			this.BillEditModel.setProperty("/Inputs/saveObjects", billEditSearchData);
+		},
+		_getCommentsDialog: function() {
+			debugger;
+			if (!this._commentsDialog) {
+				this._commentsDialog = sap.ui.xmlfragment("dialogComment", "dbedit.Fragments.comments", this.getView().getController());
+
+			}
+			return this._commentsDialog;
+		},
+		DialogClosedWithOk: function() {
+			debugger;
+			this._commentsDialog.close();
+
+		},
+		DialogClosedWithCancel: function() {
+			this._commentsDialog.close();
+		},
 
 	});
 

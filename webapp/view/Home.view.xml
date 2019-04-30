@@ -69,7 +69,7 @@
 							<SearchField width="20%" liveChange="onGlobalSearch" class="searchPosition" id="searchText0"/>
 						</Toolbar>
 					</smartTable:customToolbar>
-					<uitbl:Table id="homeTable" rowSelectionChange="homeTableSelection" rows="{InputsModel>/HomeData}">
+					<uitbl:Table id="homeTable" rowSelectionChange="homeTableSelection" rows="{InputsModel>/HomeData}" visibleRowCountMode = "Auto" >
 						<uitbl:columns>
 							<uitbl:Column width="8rem" filterProperty="Action" sortProperty="Action" showSortMenuEntry="true" autoResizable="true">
 								<uitbl:customData>
@@ -117,7 +117,8 @@
 								<uitbl:label>
 									<Text text="Comments"/></uitbl:label>
 								<uitbl:template>
-									<smartField:SmartField editable="false" id="WfComments" value="{WfComments}"/></uitbl:template>
+								<m:Button type="Emphasized" visible="false"
+							icon="sap-icon://comment" tooltip="chat" press="LinecommentsMethod"/></uitbl:template>
 							</uitbl:Column>
 							<uitbl:Column width="8rem" filterProperty="isattachment" sortProperty="isattachment" showSortMenuEntry="true" autoResizable="true">
 								<uitbl:customData>
@@ -881,54 +882,95 @@
 		<footer>
 			<Toolbar>
 				<ToolbarSpacer/>
+				<!--Home Table functionalities-->
 				<Button text="Create Final Bill" press="CreateFinalBillFuntion" visible="{InputsModel>/Inputs/Toolbar/CreateFinalBill}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/CreateFinalBill}"/>
 				<Button text="Cancel Draft Bill" press="CancelDraftBillFuntion" visible="{InputsModel>/Inputs/Toolbar/CancelDraftBill}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/CancelDraftBill}"/>
 				<Button text="Print Final Bill" press="PrintFinalBillFuntion" visible="{InputsModel>/Inputs/Toolbar/PrintFinalBill}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/PrintFinalBill}"/>
-				<Button text="Print Draft Bill" press="PrintDraftBillFuntion" visible="{InputsModel>/Inputs/Toolbar/PrintDraftBill}"
-					enabled="{InputsModel>/Inputs/ToolbarEnable/PrintDraftBill}"/>
-				<Button text="Change Status" press="ChangeStatusFunction" visible="{InputsModel>/Inputs/Toolbar/ChangeStatus}"
-					enabled="{InputsModel>/Inputs/ToolbarEnable/ChangeStatus}"/>
+				<Button text="Print Draft Bill" press="PrintDraftBillFuntion" visible="{InputsModel>/Inputs/Toolbar/HomePrintDraftBill}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/HomePrintDraftBill}"/>
+				<Button text="Change Status" press="ChangeStatusFunction" visible="{InputsModel>/Inputs/Toolbar/HomeChangeStatus}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/HomeChangeStatus}"/>
+					
+					
 				<!--NARRATIVE EDITS TABLE FUNCTIONALITIES-->
-				<Button text="Save" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/Save}"
-					enabled="{InputsModel>/Inputs/ToolbarEnable/Save}"/>
-				<Button text="Replace Words" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/ReplaceWords}"
-					enabled="{InputsModel>/Inputs/ToolbarEnable/ReplaceWords}"/>
-				<Button text="Reviewed" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/Reviewed}"
-					enabled="{InputsModel>/Inputs/ToolbarEnable/Reviewed}"/>
-				<Button text="UnReviewed" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/UnReviewed}"
-					enabled="{InputsModel>/Inputs/ToolbarEnable/UnReviewed}"/>
+				<Button text="Save" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/NarrativeSave}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/NarrativeSave}"/>
+				<Button text="Replace Words" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/NarrativeReplaceWords}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/NarrativeReplaceWords}"/>
+				<Button text="Reviewed" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/NarrativeReviewed}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/NarrativeReviewed}"/>
+				<Button text="UnReviewed" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/NarrativeUnReviewed}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/NarrativeUnReviewed}"/>
 				<Button text="Global Spell Check" press="NarrativeFunction" visible="{InputsModel>/Inputs/Toolbar/GlobalSpellCheck}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/GlobalSpellCheck}"/>
-					
-						<!--HEADER EDITS TABLE FUNCTIONALITIES-->	
+				
+				<!--HEADER EDITS TABLE FUNCTIONALITIES-->	
 				<Button text="Re-Price" press="HeaderFunction" visible="{InputsModel>/Inputs/Toolbar/Reprice}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/Reprice}"/>
-				<Button text="Add Comments" press="HeaderFunction" visible="{InputsModel>/Inputs/Toolbar/AddComments}"
-					enabled="{InputsModel>/Inputs/ToolbarEnable/AddComments}"/>
-				<Button text="Postpone" press="onPostpone" visible="{InputsModel>/Inputs/Toolbar/Postpone}"
+				<Button text="Add Comments" press="HeaderFunction" visible="{InputsModel>/Inputs/Toolbar/HeaderAddComments}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/HeaderAddComments}"/>
+				<Button text="Change Status" press="HeaderFunction" visible="{InputsModel>/Inputs/Toolbar/HeaderChangeStatus}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/HeaderChangeStatus}"/>
+						<Button text="Save" press="HeaderFunction" visible="{InputsModel>/Inputs/Toolbar/HeaderSave}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/HeaderSave}"/>
+					<Button text="Print Draft Bill" press="HeaderFunction" visible="{InputsModel>/Inputs/Toolbar/HeaderPrintDraftBill}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/HeaderPrintDraftBill}"/>
+					
+					
+				<!--LineItemEdits Table Functionalities-->
+				<Button text="Save" press="LineItemEditsFunction" visible="{InputsModel>/Inputs/Toolbar/LineItemSave}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/LineItemSave}"/>
+				<Button text="Postpone" press="LineItemEditsFunction" visible="{InputsModel>/Inputs/Toolbar/Postpone}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/Postpone}"/>
-				<Button text="Full Write Down" press="onFullWriteDown" visible="{InputsModel>/Inputs/Toolbar/FullWriteDown}"
+				<Button text="Add Comments" press="LineItemEditsFunction" visible="{InputsModel>/Inputs/Toolbar/LineItemAddComments}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/LineItemAddComments}"/>
+				<Button text="Replace Words" press="LineItemEditsFunction" visible="{InputsModel>/Inputs/Toolbar/LineItemReplaceWords}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/LineItemReplaceWords}"/>
+				<Button text="Full Write Down" press="LineItemEditsFunction" visible="{InputsModel>/Inputs/Toolbar/FullWriteDown}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/FullWriteDown}"/>
-				<Button text="Line Item Re-Price" press="onLineItemReprice" visible="{InputsModel>/Inputs/Toolbar/LineItemReprice}"
+				<Button text="Line Item Re-Price" press="LineItemEditsFunction" visible="{InputsModel>/Inputs/Toolbar/LineItemReprice}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/LineItemReprice}"/>
-				<Button text="Write Up/Down" press="onWriteUpDown" visible="{InputsModel>/Inputs/Toolbar/WriteUpDown}"
+				<Button text="Write Up/Down" press="LineItemEditsFunction" visible="{InputsModel>/Inputs/Toolbar/WriteUpDown}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/WriteUpDown}"/>
-				<Button text="Bill Exact Amount" press="onBillExactAmount" visible="{InputsModel>/Inputs/Toolbar/BillExactAmount}"
+				<Button text="Bill Exact Amount" press="LineItemEditsFunction" visible="{InputsModel>/Inputs/Toolbar/BillExactAmount}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/BillExactAmount}"/>
-				<Button text="Rate Override" press="onRateOverride" visible="{InputsModel>/Inputs/Toolbar/RateOverride}"
+				<Button text="Rate Override" press="LineItemEditsFunction" visible="{InputsModel>/Inputs/Toolbar/RateOverride}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/RateOverride}"/>
-				<Button text="Update Codes" press="onUpdateCodes" visible="{InputsModel>/Inputs/Toolbar/UpdateCodes}"
-					enabled="{InputsModel>/Inputs/ToolbarEnable/UpdateCodes}"/>
-				<Button text="Transfer" press="onTransfer" visible="{InputsModel>/Inputs/Toolbar/Transfer}"
+				<Button text="Update Codes" press="LineItemEditsFunction" visible="{InputsModel>/Inputs/Toolbar/LineItemUpdateCodes}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/LineItemUpdateCodes}"/>
+				<Button text="Reviewed" press="LineItemEditsFunction" visible="{InputsModel>/Inputs/Toolbar/LineItemReviewed}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/LineItemReviewed}"/>
+				<Button text="UnReviewed" press="LineItemEditsFunction" visible="{InputsModel>/Inputs/Toolbar/LineItemUnReviewed}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/LineItemUnReviewed}"/>
+					
+					
+				<!--LineItem Transfer Table Functionalities-->
+				<Button text="Save" press="LineItemTransfersFunction" visible="{InputsModel>/Inputs/Toolbar/LineItemTransferSave}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/LineItemTransferSave}"/>
+				<Button text="Reviewed" press="LineItemTransfersFunction" visible="{InputsModel>/Inputs/Toolbar/LineItemTransferReviewed}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/LineItemTransferReviewed}"/>
+				<Button text="UnReviewed" press="LineItemTransfersFunction" visible="{InputsModel>/Inputs/Toolbar/LineItemTransferUnReviewed}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/LineItemTransferUnReviewed}"/>
+				<Button text="Transfer" press="LineItemTransfersFunction" visible="{InputsModel>/Inputs/Toolbar/Transfer}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/Transfer}"/>
-				<Button text="Consolidate" press="LineItemTransferfunction" visible="{InputsModel>/Inputs/Toolbar/Consolidate}"
+				<Button text="Update Codes" press="LineItemTransfersFunction" visible="{InputsModel>/Inputs/Toolbar/LineItemTransferUpdateCodes}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/LineItemTransferUpdateCodes}"/>
+				<Button text="Consolidate" press="LineItemTransfersFunction" visible="{InputsModel>/Inputs/Toolbar/Consolidate}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/Consolidate}"/>
-				<Button text="Split Transfer" press="onSplitTransfer" visible="{InputsModel>/Inputs/Toolbar/SplitTransfer}"
+				<Button text="Split Transfer" press="LineItemTransfersFunction" visible="{InputsModel>/Inputs/Toolbar/SplitTransfer}"
 					enabled="{InputsModel>/Inputs/ToolbarEnable/SplitTransfer}"/>
-				<Button text="Undo" press="onUndo" visible="{InputsModel>/Inputs/Toolbar/Undo}" enabled="{InputsModel>/Inputs/ToolbarEnable/Undo}"/>
+				<Button text="Print Draft Bill" press="LineItemTransfersFunction" visible="{InputsModel>/Inputs/Toolbar/TransferPrintDraftBill}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/TransferPrintDraftBill}"/>
+				<Button text="Change Status" press="LineItemTransfersFunction" visible="{InputsModel>/Inputs/Toolbar/TransferChangeStatus}"
+					enabled="{InputsModel>/Inputs/ToolbarEnable/TransferChangeStatus}"/>
+					
+					
+					
+				<!--WrittenDown Functionalities	-->
+				<Button text="Undo" press="WrittenDownFunction" visible="{InputsModel>/Inputs/Toolbar/Undo}" enabled="{InputsModel>/Inputs/ToolbarEnable/Undo}"/>
 			</Toolbar>
 		</footer>
 	</Page>

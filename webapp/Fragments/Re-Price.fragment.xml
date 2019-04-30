@@ -1,0 +1,14 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:smartList="sap.ui.comp.smartlist"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Dialog contentWidth="700px" contentHeight="300px" draggable="true" id="Alert" title="Please Select">
+			<content >
+			<List  items="{ path: '/PricingTypeSet'}" >
+				<ActionListItem text="{Text}" press="selectReprice" app:key="{Knprs}"/>
+			</List>
+		</content>
+		<beginButton>
+			<Button type="Default" text="Cancel" press="RePriceDialogClosedWithCancel"/>
+		</beginButton>
+	</Dialog>
+</core:FragmentDefinition>
+
